@@ -1,0 +1,122 @@
+{
+  "source_episode": "113727227.json",
+  "expert_seat": 1,
+  "final_rewards": [
+    112685.0,
+    113656.0
+  ],
+  "expansions": [
+    {
+      "land": "NE",
+      "step": 148,
+      "day": 6,
+      "hour": 4,
+      "money": 399.0,
+      "hands": 9
+    },
+    {
+      "land": "SW",
+      "step": 199,
+      "day": 8,
+      "hour": 7,
+      "money": 980.0,
+      "hands": 10
+    }
+  ],
+  "sw_day_min": 8,
+  "sw_money_floor": 2500.0,
+  "ne_day_min": 6,
+  "skip_se": true,
+  "tomato_seed_start_day": 10,
+  "tomato_seed_end_day": 18,
+  "tomato_seed_total_target": 0,
+  "tomato_seed_price": 50,
+  "carrot_post_ne": false,
+  "carrot_post_ne_qty": 0,
+  "carrot_seed_price": 10,
+  "carrot_post_ne_day_end": 12,
+  "premium_first_on_shed_cap": true,
+  "premium_first_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "liq_hours": [
+    1,
+    2
+  ],
+  "liq_share_expert": {
+    "STRAWBERRY": 0.301,
+    "MILK": 0.402,
+    "TOMATO": 0.0,
+    "MELON": 0.0,
+    "WOOL": 0.242,
+    "EGG": 0.261
+  },
+  "premium_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "hire_unlocked_min": 2,
+  "hire_day_end": 14,
+  "hire_target": 12,
+  "shed_force_sell_at": 85,
+  "shed_target_after": 75,
+  "clamp_sell_to_shed": true,
+  "first_sw_affordable": null,
+  "premium_first_dumps": [
+    {
+      "step": 362,
+      "day": 15,
+      "hour": 2,
+      "item": "MILK",
+      "qty": 4,
+      "stock": 6,
+      "nons": 86
+    },
+    {
+      "step": 385,
+      "day": 16,
+      "hour": 1,
+      "item": "MILK",
+      "qty": 6,
+      "stock": 6,
+      "nons": 87
+    },
+    {
+      "step": 433,
+      "day": 18,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 12,
+      "stock": 15,
+      "nons": 93
+    },
+    {
+      "step": 578,
+      "day": 24,
+      "hour": 2,
+      "item": "WOOL",
+      "qty": 3,
+      "stock": 3,
+      "nons": 96
+    },
+    {
+      "step": 674,
+      "day": 28,
+      "hour": 2,
+      "item": "MILK",
+      "qty": 5,
+      "stock": 7,
+      "nons": 86
+    }
+  ],
+  "carrot_post_ne_buys": []
+}

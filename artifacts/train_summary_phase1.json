@@ -1,0 +1,30 @@
+{
+  "arch": "spatial",
+  "out": "artifacts/muzero_spatial_checkpoints.pt",
+  "meta": {
+    "arch": "spatial",
+    "spatial_phase": "bc",
+    "bc": {
+      "loss_total": 142.98428344726562,
+      "loss_policy": 3.9677700996398926,
+      "loss_value": 715.8485107421875,
+      "loss_reward": 116.46768188476562,
+      "loss_consistency": -0.6705939173698425,
+      "beta": 0.405994,
+      "mean_td_error": 35.240623474121094
+    },
+    "bootstrap": {},
+    "mcts_distill": {},
+    "reanalyze": {},
+    "buffer_trajectories": 50,
+    "sims": 50,
+    "batch": 64,
+    "k_steps": 5,
+    "per_alpha": 0.6,
+    "per_beta": 0.405994,
+    "consistency_weight": 0.4357,
+    "seed": null
+  },
+  "gate_2033": null,
+  "timestamp": 1790510640.149168
+}

@@ -1,0 +1,18 @@
+{
+  "iteration": 10,
+  "phase": "done",
+  "train": {
+    "returncode": 0,
+    "elapsed_s": 217.67872309684753,
+    "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+  },
+  "promote": {
+    "promoted": true,
+    "force": false,
+    "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+    "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+    "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+    "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+  },
+  "ts": 1790510007.5575721
+}

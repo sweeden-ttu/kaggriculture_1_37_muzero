@@ -1,0 +1,189 @@
+[
+  {
+    "iteration": 1,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 31.38146185874939,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790499457.136384
+  },
+  {
+    "iteration": 1,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 217.61346912384033,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790508086.4739149
+  },
+  {
+    "iteration": 2,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 225.14977097511292,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790508311.796732
+  },
+  {
+    "iteration": 3,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 292.7324888706207,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790508604.7539
+  },
+  {
+    "iteration": 4,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 206.64391708374023,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790508811.602088
+  },
+  {
+    "iteration": 5,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 196.05861711502075,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790509007.821224
+  },
+  {
+    "iteration": 6,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 197.03379273414612,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790509204.9103
+  },
+  {
+    "iteration": 7,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 192.56049299240112,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790509397.561308
+  },
+  {
+    "iteration": 8,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 199.69670605659485,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790509597.347143
+  },
+  {
+    "iteration": 9,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 192.42333126068115,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790509789.82162
+  },
+  {
+    "iteration": 10,
+    "train": {
+      "returncode": 0,
+      "elapsed_s": 217.67872309684753,
+      "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "promote": {
+      "promoted": true,
+      "force": false,
+      "spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+      "std": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints.pt",
+      "champion": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_checkpoints_champion.pt",
+      "champion_spatial": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints_champion.pt"
+    },
+    "ts": 1790510007.5575721
+  }
+]

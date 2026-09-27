@@ -1,0 +1,41 @@
+{
+  "candidate": "/Users/sweeden/kaggriculture_1_37_muzero/dist/head_muzero_submission.zip",
+  "buoy_agent": "/Users/sweeden/kaggriculture_1_37_muzero/baselines/submission_champion_20260927_051846.zip",
+  "games": 4,
+  "wins": 0,
+  "losses": 4,
+  "draws": 0,
+  "win_rate": 0.0,
+  "threshold": 0.55,
+  "passed": false,
+  "results": [
+    {
+      "game": 0,
+      "a_is_p0": true,
+      "cand_reward": 0.0,
+      "opp_reward": 190440.0,
+      "verdict": "loss"
+    },
+    {
+      "game": 1,
+      "a_is_p0": false,
+      "cand_reward": 0.0,
+      "opp_reward": 187463.0,
+      "verdict": "loss"
+    },
+    {
+      "game": 2,
+      "a_is_p0": true,
+      "cand_reward": 0.0,
+      "opp_reward": 163086.0,
+      "verdict": "loss"
+    },
+    {
+      "game": 3,
+      "a_is_p0": false,
+      "cand_reward": 0.0,
+      "opp_reward": 168557.0,
+      "verdict": "loss"
+    }
+  ]
+}

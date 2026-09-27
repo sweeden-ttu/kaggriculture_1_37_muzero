@@ -1,0 +1,105 @@
+{
+  "source_episode": "113554393.json",
+  "expert_seat": 1,
+  "final_rewards": [
+    76049.0,
+    78383.0
+  ],
+  "expansions": [
+    {
+      "land": "NE",
+      "step": 151,
+      "day": 6,
+      "hour": 7,
+      "money": 355.0,
+      "hands": 8
+    },
+    {
+      "land": "SW",
+      "step": 197,
+      "day": 8,
+      "hour": 5,
+      "money": 143.0,
+      "hands": 10
+    }
+  ],
+  "sw_day_min": 8,
+  "sw_money_floor": 2500.0,
+  "ne_day_min": 6,
+  "skip_se": true,
+  "tomato_seed_start_day": 12,
+  "tomato_seed_end_day": 18,
+  "tomato_seed_total_target": 14,
+  "tomato_seed_price": 50,
+  "carrot_post_ne": false,
+  "carrot_post_ne_qty": 0,
+  "carrot_seed_price": 10,
+  "carrot_post_ne_day_end": 12,
+  "premium_first_on_shed_cap": true,
+  "premium_first_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "liq_hours": [
+    1,
+    2
+  ],
+  "liq_share_expert": {
+    "STRAWBERRY": 0.409,
+    "MILK": 0.301,
+    "TOMATO": 0.925,
+    "MELON": 0.077,
+    "WOOL": 0.241,
+    "EGG": 0.0
+  },
+  "premium_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "hire_unlocked_min": 2,
+  "hire_day_end": 14,
+  "hire_target": 13,
+  "shed_force_sell_at": 85,
+  "shed_target_after": 75,
+  "clamp_sell_to_shed": true,
+  "first_sw_affordable": null,
+  "premium_first_dumps": [
+    {
+      "step": 433,
+      "day": 18,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 10,
+      "stock": 10,
+      "nons": 88
+    },
+    {
+      "step": 529,
+      "day": 22,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 15,
+      "stock": 15,
+      "nons": 89
+    },
+    {
+      "step": 577,
+      "day": 24,
+      "hour": 1,
+      "item": "TOMATO",
+      "qty": 12,
+      "stock": 12,
+      "nons": 86
+    }
+  ],
+  "carrot_post_ne_buys": [],
+  "notes": "Distilled from seat 1 of 113554393.json (reward 78383): expansions=['NE', 'SW'], SW d>=8, tomato target=14, carrot post-NE=False (qty=0), hire target=13."
+}

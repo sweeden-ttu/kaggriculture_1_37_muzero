@@ -1,0 +1,16 @@
+---
+description: Kaggriculture MuZero agent conventions (spatial production)
+globs:
+alwaysApply: true
+---
+
+# Kaggriculture MuZero — Agent Rules
+
+- Production architecture is **spatial Sampled MuZero** (ADR 0001): `muzero.chassis.KaggricultureMuZeroChassis`.
+- Legacy MLP / 8-macro path lives in `muzero.legacy_macro` (`--arch macro` only).
+- Prefer `muzero.*` imports over root alias shims (`kaggriculture_muzero_chassis.py`, etc.).
+- Use **miniforge conda env `kagg`**, never pip venv.
+- Do not delete canonical `replays/[0-9]+.json`; prune only `selfplay_*.json`.
+- Docs live under `docs/`; publish with `mkdocs build` / `make` docs targets.
+- Refactor agent: `docs/vsa/kaggriculture_muzero_refactor_agent.py` (plan-only by default).
+- Spec agent: `docs/vsa/kaggriculture_muzero_spec_agent.py`.

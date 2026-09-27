@@ -1,0 +1,54 @@
+{
+  "arch": "spatial",
+  "out": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt",
+  "meta": {
+    "arch": "spatial",
+    "spatial_phase": "all",
+    "bc": {
+      "loss_total": 366.51190185546875,
+      "loss_policy": 4.5131516456604,
+      "loss_value": 873.5279541015625,
+      "loss_reward": 287.75537109375,
+      "loss_consistency": -0.6633288860321045,
+      "beta": 0.400714,
+      "mean_td_error": 33.403438568115234
+    },
+    "bootstrap": {
+      "loss_total": 221.30075073242188,
+      "loss_policy": 4.1612749099731445,
+      "loss_value": 636.8981323242188,
+      "loss_reward": 111.13475036621094,
+      "loss_consistency": -0.35026809573173523,
+      "beta": 0.40017400000000003,
+      "mean_td_error": 32.433685302734375
+    },
+    "mcts_distill": {
+      "loss_total": 206.88180541992188,
+      "loss_policy": 3.8424267768859863,
+      "loss_value": 1145.13134765625,
+      "loss_reward": 48.968082427978516,
+      "loss_consistency": -0.3315720856189728,
+      "beta": 0.40023400000000003,
+      "mean_td_error": 35.4488525390625
+    },
+    "reanalyze": {
+      "loss_total": 265.4626770019531,
+      "loss_policy": 3.636080265045166,
+      "loss_value": 1515.871337890625,
+      "loss_reward": 121.96543884277344,
+      "loss_consistency": -0.14840947091579437,
+      "beta": 0.400114,
+      "mean_td_error": 41.3470573425293
+    },
+    "buffer_trajectories": 54,
+    "sims": 16,
+    "batch": 32,
+    "k_steps": 3,
+    "per_alpha": 0.6,
+    "per_beta": 0.400114,
+    "consistency_weight": 0.4357,
+    "seed": null
+  },
+  "gate_2033": null,
+  "timestamp": 1790510006.866359
+}

@@ -1,0 +1,27 @@
+{
+  "last_candidate": "Cand-020",
+  "status": "PROMOTED",
+  "score": 97170.45,
+  "margin": 1077.75,
+  "s_champion": 97170.45,
+  "is_promoted": true,
+  "config": {
+    "name": "Adaptive-Cand-20",
+    "iteration": 20,
+    "seed": 53021,
+    "train_seed": 530581147,
+    "total_iterations": 1500,
+    "phase1_steps": 500,
+    "phase2_steps": 300,
+    "phase3_epochs": 12,
+    "sims": 20,
+    "consistency_weight": 0.4157,
+    "policy_weight": 0.8757,
+    "value_weight": 0.9337,
+    "reward_weight": 0.7657,
+    "cql_weight": 0.03357,
+    "k_steps": 5,
+    "hidden_dim": 32
+  },
+  "timestamp": "2026-09-27T01:32:45.342031"
+}

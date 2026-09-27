@@ -1,0 +1,35 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pt.tmp
+.pytest_cache/
+.DS_Store
+_eval_tournament_dist/
+_eval_zip_league/
+replays/selfplay_*.json
+artifacts/population/
+artifacts/baselines_archive/
+artifacts/league_zips/
+artifacts/new_baselines_staging/
+artifacts/replays_preclear_backup/
+artifacts/ppo/ppo_*.pt
+*.log
+
+# Refactor agent / docs publish
+site/
+docs/vsa/out/
+.cursor/*.log
+*.egg-info/
+
+# Large binaries and datasets (excluded from publishing)
+replays/
+*.pt
+*.pth
+*.zip
+*.tar.gz
+artifacts/snapshots/
+artifacts/lora_adapters/
+competition/
+.opencode/node_modules/
+.opencode/package-lock.json
+.opencode/.opencode/

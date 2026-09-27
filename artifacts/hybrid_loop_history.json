@@ -1,0 +1,90 @@
+[
+  {
+    "iteration": 1,
+    "candidate_id": "Cand-001",
+    "mode": "offline",
+    "status": "PROMOTED",
+    "is_promoted": true,
+    "score": 112449.51,
+    "s_champion": 112449.51,
+    "margin": 7449.51,
+    "config": {
+      "name": "Adaptive-Cand-001-LR9.6e-04",
+      "iteration": 1,
+      "seed": 93647,
+      "train_seed": 937125529,
+      "strategy": "adaptive",
+      "lr": 0.00096,
+      "batch": 4,
+      "sims": 4,
+      "k_steps": 3,
+      "phase1_steps": 20,
+      "phase2_steps": 10,
+      "phase3_steps": 15,
+      "phase4_steps": 10,
+      "consistency_weight": 0.4357,
+      "policy_weight": 0.8557,
+      "value_weight": 0.9487,
+      "reward_weight": 0.7407,
+      "cql_weight": 0.03857,
+      "per_alpha": 0.6,
+      "per_beta": 0.4,
+      "loss_schedule": "low_rank_adaptation",
+      "is_ppo_trial": false
+    },
+    "eval_metrics": {
+      "n_episodes": 2,
+      "avg_score": 112449.51,
+      "margin": 7449.51,
+      "win_pct": 100.0
+    },
+    "trial_result": {
+      "candidate_id": "Cand-001",
+      "mode": "offline",
+      "config": {
+        "name": "Adaptive-Cand-001-LR9.6e-04",
+        "iteration": 1,
+        "seed": 93647,
+        "train_seed": 937125529,
+        "strategy": "adaptive",
+        "lr": 0.00096,
+        "batch": 4,
+        "sims": 4,
+        "k_steps": 3,
+        "phase1_steps": 20,
+        "phase2_steps": 10,
+        "phase3_steps": 15,
+        "phase4_steps": 10,
+        "consistency_weight": 0.4357,
+        "policy_weight": 0.8557,
+        "value_weight": 0.9487,
+        "reward_weight": 0.7407,
+        "cql_weight": 0.03857,
+        "per_alpha": 0.6,
+        "per_beta": 0.4,
+        "loss_schedule": "low_rank_adaptation",
+        "is_ppo_trial": false
+      },
+      "train_metrics": {
+        "loss_total": 2974.41455078125,
+        "loss_policy": 14.33061695098877,
+        "loss_value": 3117.13232421875,
+        "loss_reward": 24.962234497070312,
+        "loss_consistency": -0.36541441082954407,
+        "beta": 0.40017400000000003,
+        "mean_td_error": 55.70668411254883
+      },
+      "val_metrics": {
+        "val_loss_total": 775.0218,
+        "val_loss_policy": 11.0939,
+        "val_loss_value": 3037.5008,
+        "val_loss_consistency": -0.147,
+        "val_fitness": -13.8375
+      },
+      "fitness": -13.8375,
+      "elapsed_seconds": 6.35,
+      "out_ckpt": "/Users/sweeden/kaggriculture_1_37_muzero/artifacts/muzero_spatial_checkpoints.pt"
+    },
+    "ts": "2026-09-27T06:37:23.156784"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "python.defaultInterpreterPath": "/Users/sweeden/miniforge3/envs/kagg/bin/python",
+    "pyright.serverPath": "${workspaceFolder}/lsp/pyright_lsp.py",
+    "python.analysis.stubPath": "${workspaceFolder}/typings",
+    "python.analysis.extraPaths": [
+      "${workspaceFolder}",
+      "${workspaceFolder}/typings"
+    ],
+    "python.analysis.autoSearchPaths": true,
+    "python.analysis.typeCheckingMode": "basic"
+  }
+}

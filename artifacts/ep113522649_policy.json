@@ -1,0 +1,183 @@
+{
+  "source_episode": "113522649.json",
+  "expert_seat": 0,
+  "final_rewards": [
+    95852.0,
+    95474.0
+  ],
+  "expansions": [
+    {
+      "land": "NE",
+      "step": 151,
+      "day": 6,
+      "hour": 7,
+      "money": 1819.0,
+      "hands": 8
+    },
+    {
+      "land": "SW",
+      "step": 266,
+      "day": 11,
+      "hour": 2,
+      "money": 16069.0,
+      "hands": 11
+    },
+    {
+      "land": "SE",
+      "step": 290,
+      "day": 12,
+      "hour": 2,
+      "money": 9094.0,
+      "hands": 11
+    }
+  ],
+  "sw_day_min": 8,
+  "sw_money_floor": 2500.0,
+  "ne_day_min": 6,
+  "skip_se": false,
+  "tomato_seed_start_day": 10,
+  "tomato_seed_end_day": 18,
+  "tomato_seed_total_target": 0,
+  "tomato_seed_price": 50,
+  "carrot_post_ne": true,
+  "carrot_post_ne_qty": 1,
+  "carrot_seed_price": 10,
+  "carrot_post_ne_day_end": 12,
+  "premium_first_on_shed_cap": true,
+  "premium_first_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "liq_hours": [
+    1,
+    2
+  ],
+  "liq_share_expert": {
+    "STRAWBERRY": 0.28,
+    "MILK": 0.543,
+    "TOMATO": 0.0,
+    "MELON": 0.167,
+    "WOOL": 0.357,
+    "EGG": 0.0
+  },
+  "premium_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "hire_unlocked_min": 2,
+  "hire_day_end": 14,
+  "hire_target": 11,
+  "shed_force_sell_at": 85,
+  "shed_target_after": 75,
+  "clamp_sell_to_shed": true,
+  "first_sw_affordable": {
+    "step": 196,
+    "day": 8,
+    "hour": 4,
+    "money": 2581.0
+  },
+  "premium_first_dumps": [
+    {
+      "step": 481,
+      "day": 20,
+      "hour": 1,
+      "item": "WOOL",
+      "qty": 12,
+      "stock": 12,
+      "nons": 96
+    },
+    {
+      "step": 529,
+      "day": 22,
+      "hour": 1,
+      "item": "WOOL",
+      "qty": 12,
+      "stock": 12,
+      "nons": 92
+    },
+    {
+      "step": 578,
+      "day": 24,
+      "hour": 2,
+      "item": "MILK",
+      "qty": 9,
+      "stock": 9,
+      "nons": 95
+    },
+    {
+      "step": 601,
+      "day": 25,
+      "hour": 1,
+      "item": "MILK",
+      "qty": 9,
+      "stock": 9,
+      "nons": 86
+    },
+    {
+      "step": 625,
+      "day": 26,
+      "hour": 1,
+      "item": "MILK",
+      "qty": 9,
+      "stock": 9,
+      "nons": 100
+    },
+    {
+      "step": 650,
+      "day": 27,
+      "hour": 2,
+      "item": "MILK",
+      "qty": 9,
+      "stock": 9,
+      "nons": 99
+    },
+    {
+      "step": 674,
+      "day": 28,
+      "hour": 2,
+      "item": "WOOL",
+      "qty": 13,
+      "stock": 13,
+      "nons": 90
+    }
+  ],
+  "carrot_post_ne_buys": [
+    {
+      "step": 161,
+      "day": 6,
+      "hour": 17,
+      "qty": 1,
+      "money": 1469.0
+    },
+    {
+      "step": 162,
+      "day": 6,
+      "hour": 18,
+      "qty": 1,
+      "money": 1449.0
+    },
+    {
+      "step": 164,
+      "day": 6,
+      "hour": 20,
+      "qty": 1,
+      "money": 1129.0
+    },
+    {
+      "step": 167,
+      "day": 6,
+      "hour": 23,
+      "qty": 1,
+      "money": 1275.0
+    }
+  ],
+  "notes": "Distilled from seat 0 of 113522649.json (reward 95852): expansions=['NE', 'SW', 'SE'], SW d>=8, tomato target=0, carrot post-NE=True (qty=1), hire target=11."
+}

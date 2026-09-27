@@ -1,0 +1,154 @@
+{
+  "source_episode": "selfplay_seed32786_candidate_submission_vs_champion_submission.json",
+  "expert_seat": 1,
+  "final_rewards": [
+    100014.0,
+    100022.0
+  ],
+  "expansions": [
+    {
+      "land": "NE",
+      "step": 151,
+      "day": 6,
+      "hour": 7,
+      "money": 1215.0,
+      "hands": 7
+    },
+    {
+      "land": "SW",
+      "step": 266,
+      "day": 11,
+      "hour": 2,
+      "money": 14731.0,
+      "hands": 10
+    }
+  ],
+  "sw_day_min": 9,
+  "sw_money_floor": 2500.0,
+  "ne_day_min": 6,
+  "skip_se": true,
+  "tomato_seed_start_day": 18,
+  "tomato_seed_end_day": 18,
+  "tomato_seed_total_target": 10,
+  "tomato_seed_price": 50,
+  "carrot_post_ne": false,
+  "carrot_post_ne_qty": 0,
+  "carrot_seed_price": 10,
+  "carrot_post_ne_day_end": 12,
+  "premium_first_on_shed_cap": true,
+  "premium_first_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "liq_hours": [
+    1,
+    2
+  ],
+  "liq_share_expert": {
+    "STRAWBERRY": 0.461,
+    "MILK": 0.526,
+    "TOMATO": 0.0,
+    "MELON": 0.0,
+    "WOOL": 0.481,
+    "EGG": 0.929
+  },
+  "premium_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "hire_unlocked_min": 2,
+  "hire_day_end": 14,
+  "hire_target": 12,
+  "shed_force_sell_at": 85,
+  "shed_target_after": 75,
+  "clamp_sell_to_shed": true,
+  "first_sw_affordable": {
+    "step": 238,
+    "day": 9,
+    "hour": 22,
+    "money": 2551.0
+  },
+  "premium_first_dumps": [
+    {
+      "step": 457,
+      "day": 19,
+      "hour": 1,
+      "item": "MILK",
+      "qty": 9,
+      "stock": 4,
+      "nons": 86
+    },
+    {
+      "step": 481,
+      "day": 20,
+      "hour": 1,
+      "item": "MILK",
+      "qty": 6,
+      "stock": 4,
+      "nons": 88
+    },
+    {
+      "step": 529,
+      "day": 22,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 13,
+      "stock": 13,
+      "nons": 100
+    },
+    {
+      "step": 530,
+      "day": 22,
+      "hour": 2,
+      "item": "WOOL",
+      "qty": 4,
+      "stock": 2,
+      "nons": 85
+    },
+    {
+      "step": 553,
+      "day": 23,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 12,
+      "stock": 12,
+      "nons": 93
+    },
+    {
+      "step": 577,
+      "day": 24,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 24,
+      "stock": 24,
+      "nons": 100
+    },
+    {
+      "step": 625,
+      "day": 26,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 21,
+      "stock": 20,
+      "nons": 100
+    },
+    {
+      "step": 650,
+      "day": 27,
+      "hour": 2,
+      "item": "WOOL",
+      "qty": 7,
+      "stock": 4,
+      "nons": 96
+    }
+  ],
+  "carrot_post_ne_buys": []
+}

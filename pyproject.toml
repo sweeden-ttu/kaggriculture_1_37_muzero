@@ -1,0 +1,71 @@
+[project]
+name = "kaggriculture-muzero"
+version = "1.37.0"
+description = "Kaggriculture MuZero: refactored RL & model training with PPO microcontroller macrocontroller, 4-phase curriculum, PER behavior cloning, and latent MCTS"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Scott Weeden" }]
+dependencies = [
+    "torch>=2.0",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "kaggle>=1.6",
+    "kaggle-environments>=1.14",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pyright>=1.1.360",
+    "pytest>=7.0",
+]
+
+[tool.pyright]
+venvPath = "/Users/sweeden/miniforge3/envs"
+venv = "kagg"
+stubPath = "typings"
+pythonVersion = "3.12"
+pythonPlatform = "Darwin"
+include = [
+    "muzero",
+    "hybrid_chassis",
+    "pipelines",
+    "evaluation",
+    "packaging",
+    "tests",
+    "lsp",
+    "main.py",
+    "train_muzero.py",
+    "package_submission.py",
+    "tournament.py",
+    "learn_from_replay.py",
+]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    ".git",
+    "dist",
+    "replays",
+    "artifacts",
+    "baselines",
+    "_eval_*",
+    "hybrid_chassis/layers",
+]
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+
+[[tool.pyright.lsp]]
+# Language server: custom Pyright LSP that pre-imports kaggle_environments
+# and syncs PEP 561 stubs before starting the type checker.
+serverPath = "lsp/pyright_lsp.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q -p no:langsmith"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"

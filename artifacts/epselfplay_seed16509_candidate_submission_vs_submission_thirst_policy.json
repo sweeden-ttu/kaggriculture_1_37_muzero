@@ -1,0 +1,118 @@
+{
+  "source_episode": "selfplay_seed16509_candidate_submission_vs_submission_thirst.json",
+  "expert_seat": 0,
+  "final_rewards": [
+    173939.0,
+    47022.0
+  ],
+  "expansions": [
+    {
+      "land": "NE",
+      "step": 151,
+      "day": 6,
+      "hour": 7,
+      "money": 998.0,
+      "hands": 7
+    },
+    {
+      "land": "SW",
+      "step": 266,
+      "day": 11,
+      "hour": 2,
+      "money": 17116.0,
+      "hands": 10
+    }
+  ],
+  "sw_day_min": 9,
+  "sw_money_floor": 2500.0,
+  "ne_day_min": 6,
+  "skip_se": true,
+  "tomato_seed_start_day": 10,
+  "tomato_seed_end_day": 18,
+  "tomato_seed_total_target": 0,
+  "tomato_seed_price": 50,
+  "carrot_post_ne": false,
+  "carrot_post_ne_qty": 0,
+  "carrot_seed_price": 10,
+  "carrot_post_ne_day_end": 12,
+  "premium_first_on_shed_cap": true,
+  "premium_first_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "liq_hours": [
+    1,
+    2
+  ],
+  "liq_share_expert": {
+    "STRAWBERRY": 0.359,
+    "MILK": 0.543,
+    "TOMATO": 0.0,
+    "MELON": 0.167,
+    "WOOL": 0.255,
+    "EGG": 0.0
+  },
+  "premium_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "hire_unlocked_min": 2,
+  "hire_day_end": 14,
+  "hire_target": 11,
+  "shed_force_sell_at": 85,
+  "shed_target_after": 75,
+  "clamp_sell_to_shed": true,
+  "first_sw_affordable": {
+    "step": 225,
+    "day": 9,
+    "hour": 9,
+    "money": 2775.0
+  },
+  "premium_first_dumps": [
+    {
+      "step": 578,
+      "day": 24,
+      "hour": 2,
+      "item": "STRAWBERRY",
+      "qty": 22,
+      "stock": 22,
+      "nons": 88
+    },
+    {
+      "step": 625,
+      "day": 26,
+      "hour": 1,
+      "item": "WOOL",
+      "qty": 4,
+      "stock": 4,
+      "nons": 99
+    },
+    {
+      "step": 650,
+      "day": 27,
+      "hour": 2,
+      "item": "WOOL",
+      "qty": 7,
+      "stock": 7,
+      "nons": 89
+    },
+    {
+      "step": 673,
+      "day": 28,
+      "hour": 1,
+      "item": "WOOL",
+      "qty": 7,
+      "stock": 7,
+      "nons": 97
+    }
+  ],
+  "carrot_post_ne_buys": []
+}

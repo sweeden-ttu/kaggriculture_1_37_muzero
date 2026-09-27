@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "phase1_steps": 500,
+    "phase2_steps": 300,
+    "phase3_epochs": 12,
+    "phase4_steps": 150,
+    "consistency_weight": 0.4157,
+    "policy_weight": 0.8757,
+    "value_weight": 0.9337,
+    "reward_weight": 0.7657,
+    "cql_weight": 0.03357,
+    "loss_schedule": "low_rank_adaptation",
+    "k_steps": 5,
+    "dynamics_grad_scale": 0.5,
+    "c_l2": 0.0001,
+    "support_size": 601,
+    "hidden_dim": 32,
+    "lora_rank": 16,
+    "seed": 530581147,
+    "base_snapshot": "/Volumes/TRAINREPLAYBOOST/muzero/artifacts/snapshots/snapshot_pre_phase4.pt",
+    "lora_adapter": "/Volumes/TRAINREPLAYBOOST/muzero/artifacts/lora_adapters/adapter_train_1790490455.pt",
+    "selfplay_episodes": 4
+  },
+  "phase1": {
+    "reward": 0.4582183063030243,
+    "value": 5.392652988433838,
+    "policy": 0.9812726378440857,
+    "consistency": 0.32385382056236267,
+    "cql": 745.7822875976562,
+    "l2": 653.5927734375,
+    "total": 64.06581115722656
+  },
+  "phase2": {
+    "total": 8.546247482299805,
+    "policy": 0.7877840995788574,
+    "value": 2.7117326259613037,
+    "reward": 0.40509358048439026,
+    "consistency": 0.14758948981761932
+  },
+  "phase3": {
+    "epochs": 12,
+    "pool_size": 17850,
+    "avg_loss": 0.18963790290968882
+  },
+  "phase4": {
+    "steps": 150,
+    "pool_size": 17862,
+    "avg_loss": 0.41875741685430207,
+    "final": {
+      "total": 0.2586213946342468,
+      "policy": 0.1095118299126625,
+      "value": 0.11641037464141846,
+      "reward": 0.05203918367624283,
+      "consistency": 0.026731370016932487
+    },
+    "adapter_path": "/Volumes/TRAINREPLAYBOOST/muzero/artifacts/lora_adapters/adapter_train_1790490455.pt",
+    "selfplay_episodes": 4
+  },
+  "gate_2033": null,
+  "timestamp": 1790490631.927333
+}

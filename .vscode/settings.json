@@ -1,0 +1,38 @@
+{
+  "python.defaultInterpreterPath": "/Users/sweeden/miniforge3/envs/kagg/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.condaPath": "/Users/sweeden/miniforge3/bin/conda",
+  "pyright.serverPath": "${workspaceFolder}/lsp/pyright_lsp.py",
+  "python.languageServer": "Pylance",
+  "python.analysis.stubPath": "${workspaceFolder}/typings",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}",
+    "${workspaceFolder}/typings",
+    "${workspaceFolder}/muzero",
+    "${workspaceFolder}/pipelines"
+  ],
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
+  "[python]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/replays/selfplay_*.json": true
+  },
+  "files.watcherExclude": {
+    "**/artifacts/**": true,
+    "**/replays/**": true,
+    "**/site/**": true,
+    "**/_eval_*/**": true
+  },
+  "search.exclude": {
+    "**/site/**": true,
+    "**/artifacts/**": true,
+    "**/replays/**": true,
+    "**/dist/**": true
+  }
+}

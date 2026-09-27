@@ -1,0 +1,101 @@
+{
+  "source_episode": "113552102.json",
+  "expert_seat": 0,
+  "final_rewards": [
+    68872.0,
+    68071.0
+  ],
+  "expansions": [
+    {
+      "land": "NE",
+      "step": 151,
+      "day": 6,
+      "hour": 7,
+      "money": 1108.0,
+      "hands": 7
+    },
+    {
+      "land": "SW",
+      "step": 266,
+      "day": 11,
+      "hour": 2,
+      "money": 15034.0,
+      "hands": 10
+    }
+  ],
+  "sw_day_min": 10,
+  "sw_money_floor": 2500.0,
+  "ne_day_min": 6,
+  "skip_se": true,
+  "tomato_seed_start_day": 10,
+  "tomato_seed_end_day": 18,
+  "tomato_seed_total_target": 0,
+  "tomato_seed_price": 50,
+  "carrot_post_ne": false,
+  "carrot_post_ne_qty": 0,
+  "carrot_seed_price": 10,
+  "carrot_post_ne_day_end": 12,
+  "premium_first_on_shed_cap": true,
+  "premium_first_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "liq_hours": [
+    1,
+    2
+  ],
+  "liq_share_expert": {
+    "STRAWBERRY": 0.254,
+    "MILK": 0.364,
+    "TOMATO": 0.0,
+    "MELON": 0.167,
+    "WOOL": 0.276,
+    "EGG": 0.782
+  },
+  "premium_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "hire_unlocked_min": 2,
+  "hire_day_end": 14,
+  "hire_target": 11,
+  "shed_force_sell_at": 85,
+  "shed_target_after": 75,
+  "clamp_sell_to_shed": true,
+  "first_sw_affordable": {
+    "step": 251,
+    "day": 10,
+    "hour": 11,
+    "money": 8348.0
+  },
+  "premium_first_dumps": [
+    {
+      "step": 529,
+      "day": 22,
+      "hour": 1,
+      "item": "MILK",
+      "qty": 7,
+      "stock": 8,
+      "nons": 99
+    },
+    {
+      "step": 530,
+      "day": 22,
+      "hour": 2,
+      "item": "WOOL",
+      "qty": 2,
+      "stock": 2,
+      "nons": 90
+    }
+  ],
+  "carrot_post_ne_buys": [],
+  "notes": "Distilled from seat 0 of 113552102.json (reward 68872): expansions=['NE', 'SW'], SW d>=10, tomato target=0, carrot post-NE=False (qty=0), hire target=11."
+}

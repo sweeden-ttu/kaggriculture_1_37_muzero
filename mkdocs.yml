@@ -1,0 +1,115 @@
+site_name: Kaggriculture MuZero Documentation
+site_description: Complete architecture, training, and deployment docs for Kaggriculture MuZero
+site_url: https://sweeden.github.io/kaggriculture_1_37_muzero/
+repo_url: https://github.com/sweeden/kaggriculture_1_37_muzero
+repo_name: kaggriculture_1_37_muzero
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tabs.link
+
+nav:
+  - Home: INDEX.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Data Flow: architecture/data-flow.md
+      - Component Map: architecture/component-map.md
+  - Components:
+      - Observation Encoder: components/observation-encoder.md
+      - Factorized Prediction Head: components/factorized-prediction-head.md
+      - SimSiam Consistency: components/simsiam-consistency.md
+      - Sampled MCTS: components/sampled-mcts.md
+      - MuZero Core Chassis: components/muzero-core-chassis.md
+      - PER Buffer & Reanalyze: components/per-buffer-reanalyze.md
+      - Trainer Loop & EMA: components/trainer-loop-ema.md
+      - League Tracker & PFSP: components/league-tracker-pfsp.md
+      - Consolidated System: components/consolidated-system.md
+  - Training:
+      - "Phase 1: Behavioral Cloning": training/phase-1-bc.md
+      - "Phase 2: Analytical Bootstrap": training/phase-2-bootstrap.md
+      - "Phase 3: MCTS Distillation": training/phase-3-mcts-distill.md
+      - "Phase 4: LoRA + PPO": training/phase-4-lora-ppo.md
+      - Loss Schedules: training/loss-schedules.md
+      - Continuous Loop: training/continuous-loop.md
+  - Evaluation:
+      - Tournament Engine: evaluation/tournament-engine.md
+      - Baseline Comparison: evaluation/baseline-comparison.md
+      - League PFSP: evaluation/league-pfsp.md
+  - Deployment:
+      - Submission Archetypes: deployment/submission-archetypes.md
+      - GitHub Pages Setup: deployment/github-pages-setup.md
+      - Kaggle Submission: deployment/kaggle-submission.md
+  - Reference:
+      - Hyperparameter Table: reference/hyperparameter-table.md
+      - API Reference: reference/api-reference.md
+      - Glossary: reference/glossary.md
+      - FAQ: reference/faq.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+      title: On this page
+
+plugins:
+  - search
+
+extra:
+  version:
+    provider: mike
+copyright: Copyright &copy; 2026 Scott Weeden
+
+# Exclude Python files from being copied to site
+exclude_docs: |
+  **/*.py
+  - git-revision-date-localized:
+      enable_creation_date: true
+      enable_git_follow: false
+  - minify:
+      minify_html: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sweeden/kaggriculture_1_37_muzero
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+  version:
+    provider: mike
+
+copyright: Copyright &copy; 2026 Scott Weeden

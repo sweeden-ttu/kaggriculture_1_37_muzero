@@ -1,0 +1,130 @@
+{
+  "source_episode": "113732006.json",
+  "expert_seat": 0,
+  "final_rewards": [
+    77851.0,
+    75372.0
+  ],
+  "expansions": [
+    {
+      "land": "NE",
+      "step": 150,
+      "day": 6,
+      "hour": 6,
+      "money": 2094.0,
+      "hands": 8
+    },
+    {
+      "land": "SW",
+      "step": 222,
+      "day": 9,
+      "hour": 6,
+      "money": 353.0,
+      "hands": 10
+    },
+    {
+      "land": "SE",
+      "step": 254,
+      "day": 10,
+      "hour": 14,
+      "money": 2044.0,
+      "hands": 11
+    }
+  ],
+  "sw_day_min": 9,
+  "sw_money_floor": 2500.0,
+  "ne_day_min": 6,
+  "skip_se": false,
+  "tomato_seed_start_day": 6,
+  "tomato_seed_end_day": 18,
+  "tomato_seed_total_target": 14,
+  "tomato_seed_price": 50,
+  "carrot_post_ne": false,
+  "carrot_post_ne_qty": 0,
+  "carrot_seed_price": 10,
+  "carrot_post_ne_day_end": 12,
+  "premium_first_on_shed_cap": true,
+  "premium_first_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "liq_hours": [
+    1,
+    2
+  ],
+  "liq_share_expert": {
+    "STRAWBERRY": 0.717,
+    "MILK": 0.274,
+    "TOMATO": 0.333,
+    "MELON": 0.1,
+    "WOOL": 0.268,
+    "EGG": 0.31
+  },
+  "premium_items": [
+    "STRAWBERRY",
+    "MILK",
+    "TOMATO",
+    "MELON",
+    "WOOL",
+    "EGG"
+  ],
+  "hire_unlocked_min": 2,
+  "hire_day_end": 14,
+  "hire_target": 12,
+  "shed_force_sell_at": 85,
+  "shed_target_after": 75,
+  "clamp_sell_to_shed": true,
+  "first_sw_affordable": null,
+  "premium_first_dumps": [
+    {
+      "step": 337,
+      "day": 14,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 11,
+      "stock": 10,
+      "nons": 86
+    },
+    {
+      "step": 361,
+      "day": 15,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 6,
+      "stock": 4,
+      "nons": 100
+    },
+    {
+      "step": 385,
+      "day": 16,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 6,
+      "stock": 6,
+      "nons": 93
+    },
+    {
+      "step": 409,
+      "day": 17,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 6,
+      "stock": 5,
+      "nons": 95
+    },
+    {
+      "step": 433,
+      "day": 18,
+      "hour": 1,
+      "item": "STRAWBERRY",
+      "qty": 6,
+      "stock": 4,
+      "nons": 94
+    }
+  ],
+  "carrot_post_ne_buys": []
+}
