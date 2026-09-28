@@ -74,6 +74,22 @@ real differences in mix and timing: `dist/pool/` holds the champion pinned to
 tapes 0, 12, 100 and 110 (`strategy/layers/route_force.py`), an all-cow
 variant and `main_pl.py`.
 
+Champion against the pool (fixed draw, seeds 11-14, both seats):
+
+| Opponent | Result for the champion |
+| :--- | :--- |
+| Champion pinned to tape 0 or tape 100 | 8W-0L, +$640 to +$760 (the router's draw-conditional pick is worth about $700) |
+| Champion pinned to tape 12 (14 sheep, 44 strawberries) | 8W-0L, +$33k |
+| Champion pinned to tape 110 (5 geese, 8 cows, 4 sheep) | 4W-4L, -$356 mean, -$3.5k to +$3.2k per seed |
+| Champion with every pasture animal a cow | 2W-6L, -$47 mean, -$3.7k to +$4.9k per seed |
+| `main_pl.py` | 8W-0L, +$47k |
+
+Rival sales recovered from public information only (market inventory deltas
+minus our own trades minus town consumption) match the rival's true per-step
+sales exactly on 96% of product-steps over a full game; the residual is wheat
+the rival bought and units the rival sold at the $1 floor. The rival's dumps
+are therefore observable in real time, which the day-2 sell-timing layer needs.
+
 Three evaluation facts matter more than any single lever:
 
 1. **The shop draw is coupled to the farms.** The engine seeds one RNG per day
