@@ -141,6 +141,14 @@ seed 13 and $18k on seed 11, dominated by milk and strawberry (the melon term
 is the unattainable pre-dump price). A layer that captures a fifth of that is
 worth $2k-$4k per game, which is the day-2 target.
 
+Measured on day 2 (`strategy/layers/sell_timing.py`, fixed draw): holding milk,
+wool or strawberry whenever the forecast (consumption, recovered rival rate,
+rival's visible pending units) says the book recovers within 6-24 steps lost
+$634 on seed 11 and $233 on seed 13, while the rival gained up to $1.5k. A
+rival that sells continuously takes the recovery; the only real timing edge is
+selling *before* the rival's dump, which the tape's choreography already does
+at the first legal hour. The layer is kept but disabled (`_ST_ENABLED=False`).
+
 **Day 2**: sweep against a pool (champion + `main_pl.py` + baseline agents),
 held-out validation, a sell-timing layer that uses recovered rival sales and
 the consumption forecast (hold a product while the rival is dumping it and

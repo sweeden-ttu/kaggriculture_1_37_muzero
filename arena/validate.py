@@ -60,12 +60,17 @@ def main() -> int:
     for name, cfg in configs:
         spec = {"path": args.agent, "overrides": cfg, "name": name}
         results = []
+        per_opponent = {}
         for opp in args.opponents:
-            results.extend(play_many(paired_tasks(spec, opp, seeds, fixed_draw=args.fixed_draw),
-                                     workers=args.workers, progress=False))
+            opp_results = play_many(paired_tasks(spec, opp, seeds, fixed_draw=args.fixed_draw),
+                                    workers=args.workers, progress=False)
+            results.extend(opp_results)
+            per_opponent[spec_name(opp)] = paired_summary(opp_results)
         s = paired_summary(results)
         print(format_summary(name, "pool", s))
-        report.append({"name": name, "config": cfg, "summary": s})
+        for opp_name, os_ in per_opponent.items():
+            print("   " + format_summary(name, opp_name, os_))
+        report.append({"name": name, "config": cfg, "summary": s, "per_opponent": per_opponent})
     if args.save:
         with open(args.save, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=1)
