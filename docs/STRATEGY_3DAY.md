@@ -118,9 +118,11 @@ produce byte-identical games; the edge comes from four:
 rival these flip ties into wins by a few hundred dollars; against any other
 rival they change nothing measurable. On fresh seeds 31-38 (fixed draw, both seats) it beat the
 exact champion 10W-6L by +$105 +/- 72: the edge is real but at the $100
-level, so tuning inside the champion's own dial space is exhausted. It is the
-default submission candidate only because it is never worse than the champion
-in expectation; it is not a leaderboard move on its own.
+level, so tuning inside the champion's own dial space is exhausted. On the same seeds the
+unmodified champion and the tuned candidate post identical records against
+tape 110 (8W-8L, +$627 vs +$716) and all-cow (6W-10L, +$7,394 vs +$7,397).
+It is the default submission candidate only because it is never worse than
+the champion in expectation; it is not a leaderboard move on its own.
 
 Three evaluation facts matter more than any single lever:
 
