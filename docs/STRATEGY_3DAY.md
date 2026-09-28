@@ -102,9 +102,22 @@ games per configuration against the champion, tape 12, tape 110 and all-cow):
 Against every rival that differs from the champion, the tuned dials change the
 outcome by less than $200 (inside the noise). Their entire effect is a
 consistent +$300 edge over the *exact* champion, which turns the 14 mirror
-ties into wins. That is real but small; an ablation (`arena/ablate.py`) is
-identifying which of the 20 dials carries it so the candidate can ship only
-those.
+ties into wins. That is real but small. The per-dial ablation (`arena/ablate.py`, same
+seeds, one dial at a time against the champion) shows 14 of the 20 dials
+produce byte-identical games; the edge comes from four:
+
+| Dial (default -> tuned) | vs champion, 16 games |
+| :--- | :--- |
+| `V9_FERT_FIRST_DAY` 14 -> 8 (use carried fertilizer on young wheat/carrot from day 8) | 11W-3L-2T, +$11 |
+| `_SR_MARGIN` 8 -> 18 (shed-room sale margin) | 13W-1L-2T, +$38 |
+| `_CA_MARGIN` -5 -> -16.85 (carrot-for-wheat swap margin) | 9W-1L-6T, +$138 |
+| `V9_CARROT_BOOM_RATIO` 3.5 -> 4.6 | 3W-1L-12T, +$142 |
+
+`dist/candidate_tuned.py` is the champion with exactly those dials (plus
+`_CH_SHED=98`, +$15), built by `strategy.build --set`. Against an identical
+rival these flip ties into wins by a few hundred dollars; against any other
+rival they change nothing measurable. Ship it as the default submission only
+because it is never worse than the champion in 200+ paired games.
 
 Three evaluation facts matter more than any single lever:
 
