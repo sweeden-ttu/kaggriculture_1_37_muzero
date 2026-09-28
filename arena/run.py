@@ -64,6 +64,7 @@ def main() -> int:
     ap.add_argument("--one-seat", action="store_true", help="only play A as P0")
     ap.add_argument("--workers", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--attribution", action="store_true", help="attribute revenue per product (slower)")
+    ap.add_argument("--fixed-draw", action="store_true", help="decouple the town shop draw from farm state (common random numbers)")
     ap.add_argument("--save", default=None, help="JSON output path")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
@@ -73,7 +74,8 @@ def main() -> int:
     all_results = []
     for b_path in args.b:
         b = parse_spec(b_path, args.b_overrides)
-        tasks = paired_tasks(a, b, seeds, both_seats=not args.one_seat, attribution=args.attribution)
+        tasks = paired_tasks(a, b, seeds, both_seats=not args.one_seat, attribution=args.attribution,
+                             fixed_draw=args.fixed_draw)
         results = play_many(tasks, workers=args.workers, progress=not args.quiet)
         all_results.extend(results)
         s = paired_summary(results)

@@ -210,7 +210,7 @@ def agent(observation, configuration=None):
                     else:
                         chosen = tape_species
                 st["bought"][chosen] = st["bought"].get(chosen, 0) + k
-                _SP_REPORT["sp_decisions"].append((step, tape_species, chosen, k, {s: int(v) for s, v in evs.items()}))
+                _SP_REPORT["sp_decisions"].append((step, tape_species, chosen, k, {s: int(v) for s, v in evs.items()}, int(cash)))
             if len(order) >= 3 and order[0] in ("BUY_ANIMAL", "BUY_SEED", "BUY_PRODUCT"):
                 q = max(0, int(order[2]))
                 if order[0] == "BUY_ANIMAL":

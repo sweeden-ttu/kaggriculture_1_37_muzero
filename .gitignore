@@ -33,3 +33,10 @@ competition/
 .opencode/node_modules/
 .opencode/package-lock.json
 .opencode/.opencode/
+
+# arena outputs and locally built candidates/opponent pool
+artifacts/arena/*.json
+artifacts/arena/*.jsonl
+artifacts/arena/*.log
+dist/candidate_*.py
+dist/pool/

@@ -126,6 +126,8 @@ def _run_game(task: Dict[str, Any]) -> Dict[str, Any]:
     want_attr = bool(task.get("attribution", False))
     t0 = time.time()
     try:
+        if task.get("fixed_draw"):
+            install_fixed_draw()
         fa, fb = resolve_agent(a), resolve_agent(b)
         p0, p1 = (fa, fb) if a_is_p0 else (fb, fa)
         env = kaggle_environments.make(
@@ -198,3 +200,53 @@ def save_results(results: Sequence[GameResult], path: str) -> None:
     os.makedirs(os.path.dirname(os.path.abspath(path)) or ".", exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump([r.to_dict() for r in results], f)
+
+
+# ---------------------------------------------------------------------------
+# Fixed town draw (common random numbers for candidate comparisons)
+# ---------------------------------------------------------------------------
+def install_fixed_draw() -> None:
+    """Decouple the shop draw (and each farm's weeds) from farm state.
+
+    The engine's ``_end_of_day`` seeds one RNG per day and consumes one draw per
+    empty tile on both farms for weeds before drawing the day's new shop, so any
+    difference in either farm re-rolls every later shop. For A/B comparisons we
+    want the town to depend on the seed only; weeds get a per-player stream.
+    Real Kaggle games keep the coupling (a zero-mean re-roll), so this is only
+    used inside the arena when ``fixed_draw`` is requested.
+    """
+    import random as _random
+    from kaggle_environments.envs.kaggriculture import kaggriculture as K
+
+    if getattr(K, "_arena_fixed_draw", False):
+        return
+
+    def _end_of_day(state, env, day):
+        obs0 = state[0].observation
+        cfg = env.configuration
+        board_size = int(K.get(cfg, "boardSize", 10))
+        turns_per_day = max(1, int(K.get(cfg, "turnsPerDay", 24)))
+        weed_chance = float(K.get(cfg, "weedSpawnChance", 0.005))
+        shed_cap = int(K.get(cfg, "shedCapacity", 100))
+        shop_interval = max(1, int(K.get(cfg, "townShopUnlockInterval", 3)))
+        seed = env.info.get("seed", 0)
+        for player_id, farm in enumerate(obs0.farms):
+            private = state[player_id].observation.private
+            K._daily_refresh_plants(farm, day, turns_per_day)
+            K._daily_refresh_animals(farm, day)
+            rng_w = _random.Random(((seed * 1_000_003) ^ day) * 7 + 1000 + player_id)
+            K._spawn_weeds(farm, board_size, weed_chance, rng_w)
+            K._drop_inventories_to_shed(private, shed_cap)
+            farm["farmer"] = list(K._default_spawn(board_size))
+            farm["hands"] = []
+            farm["hires_today"] = 0
+            private["inventories"] = [{}]
+        next_day = day + 1
+        town = obs0.town
+        if next_day > 0 and next_day % shop_interval == 0:
+            if len(town["unlocked_shops"]) < K.MAX_SHOP_INSTANCES:
+                rng_s = _random.Random((seed * 1_000_003) ^ day)
+                town["unlocked_shops"].append(rng_s.choice(sorted(K.SHOPS)))
+
+    K._end_of_day = _end_of_day
+    K._arena_fixed_draw = True
