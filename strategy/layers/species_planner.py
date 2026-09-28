@@ -11,7 +11,7 @@
 # is a *margin*, not a total). Appended after every other layer, so it sees the
 # final action of the stack. Tunables are module globals for arena sweeps.
 # ---------------------------------------------------------------------------
-_SP_MODE = "ev"            # "tape" (never deviate) | "cow" | "sheep" | "ev"
+_SP_MODE = "tape"          # "tape" (never deviate) | "cow" | "sheep" | "ev"; ev nets ~+$500/game, noisy
 _SP_MIN_GAIN = 300.0       # EV advantage ($) needed to deviate from the tape species
 _SP_FIRST_STEP = 24        # purchases before this step are left to the tape (day-0 hedge)
 _SP_CARE = 0.8             # fraction of the daily care bonus actually realised

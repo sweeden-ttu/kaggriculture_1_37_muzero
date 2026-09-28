@@ -119,6 +119,12 @@ pipelines, which stay in the repo but are unused.
 **Day 1 (this branch)**: arena, fixed draw, attribution, market model, species
 planner (parked, `_SP_MODE="tape"`), sweep infrastructure and first sweep.
 
+An oracle bound on sell timing (each unit we sold re-priced at the best
+start-of-step price within +/-12 steps, book otherwise unchanged) is $11k on
+seed 13 and $18k on seed 11, dominated by milk and strawberry (the melon term
+is the unattainable pre-dump price). A layer that captures a fifth of that is
+worth $2k-$4k per game, which is the day-2 target.
+
 **Day 2**: sweep against a pool (champion + `main_pl.py` + baseline agents),
 held-out validation, a sell-timing layer that uses recovered rival sales and
 the consumption forecast (hold a product while the rival is dumping it and

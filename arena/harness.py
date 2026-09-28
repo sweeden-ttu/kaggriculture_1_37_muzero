@@ -172,7 +172,9 @@ def play_many(tasks: Iterable[Dict[str, Any]], workers: int = 4, progress: bool 
     if not tasks:
         return []
     workers = max(1, min(workers, len(tasks)))
-    ctx = mp.get_context("spawn")
+    # fork on Linux (workers inherit imports; each plays one game and exits),
+    # spawn elsewhere. Spawn cannot re-import a stdin/heredoc __main__.
+    ctx = mp.get_context("fork") if sys.platform.startswith("linux") else mp.get_context("spawn")
     out: List[GameResult] = []
     with ctx.Pool(processes=workers, maxtasksperchild=1) as pool:
         for i, d in enumerate(pool.imap_unordered(_run_game, tasks, chunksize=1), 1):
