@@ -90,6 +90,22 @@ sales exactly on 96% of product-steps over a full game; the residual is wheat
 the rival bought and units the rival sold at the $1 floor. The rival's dumps
 are therefore observable in real time, which the day-2 sell-timing layer needs.
 
+**Pool sweep, validated on held-out seeds 21-28** (fixed draw, both seats, 64
+games per configuration against the champion, tape 12, tape 110 and all-cow):
+
+| Configuration | vs pool | vs the champion itself |
+| :--- | :--- | :--- |
+| Unmodified champion | 43W-7L-14T, +$6,731 +/- 1,536 | 1W-1L-14T (identical games) |
+| Sweep trial 37 (20 dials) | 57W-7L-0T, +$6,830 +/- 1,516 | 15W-1L-0T, +$303 +/- 164 |
+| Sweep trials 41 and 35 | 55W-7L-2T | 13W-1L-2T, +$293 / +$207 |
+
+Against every rival that differs from the champion, the tuned dials change the
+outcome by less than $200 (inside the noise). Their entire effect is a
+consistent +$300 edge over the *exact* champion, which turns the 14 mirror
+ties into wins. That is real but small; an ablation (`arena/ablate.py`) is
+identifying which of the 20 dials carries it so the candidate can ship only
+those.
+
 Three evaluation facts matter more than any single lever:
 
 1. **The shop draw is coupled to the farms.** The engine seeds one RNG per day
