@@ -116,8 +116,11 @@ produce byte-identical games; the edge comes from four:
 `dist/candidate_tuned.py` is the champion with exactly those dials (plus
 `_CH_SHED=98`, +$15), built by `strategy.build --set`. Against an identical
 rival these flip ties into wins by a few hundred dollars; against any other
-rival they change nothing measurable. Ship it as the default submission only
-because it is never worse than the champion in 200+ paired games.
+rival they change nothing measurable. On fresh seeds 31-38 (fixed draw, both seats) it beat the
+exact champion 10W-6L by +$105 +/- 72: the edge is real but at the $100
+level, so tuning inside the champion's own dial space is exhausted. It is the
+default submission candidate only because it is never worse than the champion
+in expectation; it is not a leaderboard move on its own.
 
 Three evaluation facts matter more than any single lever:
 
