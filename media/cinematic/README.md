@@ -1,6 +1,8 @@
-# Kaggriculture CloudFronts — Cinematic (Option 1: Cinematic & Visionary)
+# Kaggriculture CloudFronts — Films
 
-`kaggriculture_cinematic.mp4` — 1:36, 1920×1080 @ 30 fps, 2.39:1 letterbox, stereo score.
+Two procedural films. Every visual and every sound is generated in code; there is no stock footage or third-party audio. Both are 1920×1080 @ 30 fps, 2.39:1 letterbox, stereo score.
+
+## 1. Cinematic & Visionary — `kaggriculture_cinematic.mp4` (1:36)
 
 | Time | Scene | Line |
 | :--- | :--- | :--- |
@@ -14,16 +16,31 @@
 | 1:17 | Sunrise over a green planet | "We are presenting **the future of world food security**." |
 | 1:27 | End card | "This is how we did it." |
 
-## Rebuild
+## 2. Everyone Wins — `kaggriculture_everyone_wins.mp4` (2:08)
 
-Everything is procedural — no stock footage or third-party audio.
+| Time | Scene | Line |
+| :--- | :--- | :--- |
+| 0:00 | Pollen in warm light — studio credit, title | *Everyone Wins* |
+| 0:08 | Dawn over farmland; produce flows from every farm into a town whose windows light up | "Imagine a world where every farmer succeeds…" → "…feeding communities overnight." |
+| 0:27 | Nine neighboring farms joined by gold threads; they dim for the question, then burst into light | "Now imagine a supply chain where your neighbor's prosperity is your primary concern…" → "…everyone wins — and they do so spectacularly." |
+| 0:48 | Head to head: both seats' cash curves rise together; both harvests sell out | "We set out to prove this vision…" → "Because that is the only future worth building." |
+| 1:12 | Two players, a Prisoner's Dilemma payoff matrix; mutual cooperation lights up | "With zero direct communication, we cracked the Prisoner's Dilemma…" |
+| 1:21 | Step 0: the real NeML opening orders from `dist/main_mz.py` type out; value counter | "On Step 0… the NeML move." → "…redefines financial possibilities." |
+| 1:39 | Teal and amber strands rise as a double helix; storm clouds clear to dawn | "Beyond the numbers…" → "“I learned this; now let's win together.”" → "…shared success is the only way forward." |
+| 2:01 | End card | "Everyone wins." |
+
+The Step 0 on-screen value comes from `NEML_VALUE` at the top of `everyone_wins.html`.
+
+## Rebuild
 
 ```bash
 pip install playwright imageio-ffmpeg numpy
-python media/cinematic/render_movie.py                    # full film (~8 min)
-python media/cinematic/render_movie.py --stills 20 60 80  # preview frames
+python media/cinematic/render_movie.py                                 # film 1 (~8 min)
+python media/cinematic/render_movie.py --film everyone_wins            # film 2 (~11 min)
+python media/cinematic/render_movie.py --film everyone_wins --stills 20 60   # preview frames
 ```
 
-- `cinematic.html` — the film as a canvas scene graph; `window.renderAt(t)` draws any frame. Open it in a browser to watch it live (silent).
-- `soundtrack.py` — numpy-synthesized score: D-minor pads resolving to D major, impacts on cuts, thunder, risers, machine pulse, sunrise shimmer.
-- `render_movie.py` — steps the page frame-by-frame in headless Chromium and muxes the score with ffmpeg.
+- `engine.js` — shared engine: timing/easing, globe, grain, letterbox, word-by-word subtitles, and `film(DURATION, SCENES)`, which exposes `window.renderAt(t)`.
+- `cinematic.html`, `everyone_wins.html` — each film as a canvas scene graph. Open one in a browser to watch it live (silent).
+- `soundtrack.py` — numpy-synthesized scores, one `Cue` sheet per film (`OPTION1`, `EVERYONE_WINS`).
+- `render_movie.py` — steps a film page frame-by-frame in headless Chromium and muxes its score with ffmpeg.

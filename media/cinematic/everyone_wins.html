@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Everyone Wins</title>
+<style>
+  :root { --bg: #000; }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; margin: auto;
+           position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="engine.js"></script>
+<script>
+/*
+ * Kaggriculture CloudFronts — "Everyone Wins"
+ */
+const TEAL = '#5fe0c8', AMBER = '#ffb45c', MONO = '"DejaVu Sans Mono", "Liberation Mono", monospace';
+const SKY_SHADOW = 'rgba(40,18,8,.75)';
+// On-screen Step 0 value, as stated in the narration.  (The repo's glossary
+// documents the NeML opening at +$20-25 per player; change it here if needed.)
+const NEML_VALUE = 80;
+// The real Step 0 opening shipped in dist/main_mz.py (_NEML_STEP0_ORDERS).
+const NEML_ORDERS = [['BUY_PRODUCT', 'WHEAT', 9], ['SELL', 'WHEAT', 9], ['BUY_PRODUCT', 'WHEAT', 11], ['SELL', 'WHEAT', 6], ['BUY_SEED', 'WHEAT', 1]];
+
+// label() sets alpha absolutely; lab() respects the current scene/cross-fade alpha.
+const lab = (text, x, y, size, color, alpha, ...rest) => label(text, x, y, size, color, alpha * ctx.globalAlpha, ...rest);
+const R2 = mulberry(80);
+const pollen = Array.from({ length: 240 }, () => ({ x: R2() * W, y: R2() * H, s: R2() * 2.2 + .5, v: R2() * 10 + 3, p: R2() * 6.283 }));
+const hillY = (x, base, amp, f, ph) => base + amp * Math.sin(x * f + ph) + amp * .4 * Math.sin(x * f * 2.3 + ph * 1.7);
+const LAYERS = [
+  { base: H * .60, amp: 22, f: .0021, ph: 1.0, col: [120, 110, 140] },
+  { base: H * .66, amp: 30, f: .0017, ph: 2.2, col: [88, 110, 80] },
+  { base: H * .74, amp: 36, f: .0013, ph: 4.1, col: [58, 92, 52] },
+  { base: H * .84, amp: 40, f: .0011, ph: .4, col: [34, 62, 34] },
+];
+const farms = [[260, 2], [520, 1], [760, 3], [980, 2], [1180, 1], [420, 3], [1320, 2]].map(([x, l]) => ({ x, l, y: hillY(x, LAYERS[l].base, LAYERS[l].amp, LAYERS[l].f, LAYERS[l].ph) }));
+const town = [];
+{ let x = 1450; while (x < 1860) { const w = 26 + R2() * 34, h = 40 + R2() * 110; town.push({ x, w, h, win: Array.from({ length: Math.floor(h / 16) * Math.floor(w / 12) }, () => R2()) }); x += w + 4; } }
+const produce = ['#ff5d5d', '#ff9a3c', '#8be36b', '#ff7fb0', '#ffe066'];
+const flows = [];
+farms.forEach((f, i) => { for (let k = 0; k < 9; k++) flows.push({ f: i, ph: R2(), b: Math.floor(R2() * town.length), c: produce[Math.floor(R2() * produce.length)] }); });
+
+function drawHills(t, warm, stripes = true) {
+  LAYERS.forEach((L, li) => {
+    const k = warm;
+    ctx.fillStyle = `rgb(${L.col.map((v, i) => Math.round(v * lerp(.35, 1, k) + [30, 12, 0][i] * k * (li === 0)))})`;
+    ctx.beginPath(); ctx.moveTo(0, H);
+    for (let x = 0; x <= W; x += 16) ctx.lineTo(x, hillY(x, L.base, L.amp, L.f, L.ph));
+    ctx.lineTo(W, H); ctx.fill();
+    if (stripes && li >= 2) {
+      ctx.strokeStyle = `rgba(${li === 3 ? '150,200,110' : '170,210,120'},${.12 * k})`; ctx.lineWidth = 2;
+      for (let s = 1; s <= 7; s++) {
+        ctx.beginPath();
+        for (let x = 0; x <= W; x += 20) ctx.lineTo(x, hillY(x, L.base, L.amp, L.f, L.ph) + s * 13 * (1 + li * .15));
+        ctx.stroke();
+      }
+    }
+  });
+}
+function farmhouse(x, y, sc, lit) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(sc, sc);
+  ctx.fillStyle = '#2b1e16'; ctx.fillRect(-16, -20, 32, 20);
+  ctx.beginPath(); ctx.moveTo(-20, -20); ctx.lineTo(0, -36); ctx.lineTo(20, -20); ctx.fill();
+  ctx.fillStyle = `rgba(255,205,120,${lit})`; ctx.shadowColor = '#ffc46b'; ctx.shadowBlur = 14 * lit;
+  ctx.fillRect(-9, -14, 7, 7); ctx.fillRect(3, -14, 7, 7);
+  ctx.restore();
+}
+
+// A — studio credit, film title
+function sceneTitle(t, A) {
+  ctx.save(); ctx.globalAlpha = A;
+  const g = ctx.createRadialGradient(W / 2, H * .62, 0, W / 2, H * .62, 1000);
+  g.addColorStop(0, '#2b1a0a'); g.addColorStop(1, '#050302');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  for (const d of pollen) {
+    const x = (d.x + t * d.v) % W, y = d.y - Math.sin(t * .5 + d.p) * 16;
+    ctx.fillStyle = `rgba(255,214,150,${.25 + .35 * Math.sin(t + d.p) ** 2})`;
+    ctx.beginPath(); ctx.arc(x, y, d.s, 0, 7); ctx.fill();
+  }
+  const a = env(t, 1, 5, 1.4, 1);
+  lab('KAGGRICULTURE  CLOUDFRONTS', W / 2, H / 2 - 20, 50, GOLD, a, 22, 'center', 400, SERIF);
+  lab('P R E S E N T S', W / 2, H / 2 + 50, 18, '#d9d2c3', env(t, 2.2, 5, 1, 1), 10);
+  const b = env(t, 5.2, 8.6, 1.2, 1);
+  if (b > 0) {
+    ctx.globalAlpha = A * b; ctx.font = `italic 400 120px ${SERIF}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#fff1d6'; ctx.shadowColor = 'rgba(255,180,90,.6)'; ctx.shadowBlur = 50;
+    ctx.fillText('Everyone Wins', W / 2, H / 2 + lerp(12, 0, easeOut((t - 5.2) / 3)));
+  }
+  ctx.restore();
+}
+
+// B — every seed meets demand: produce flows from the farms into a town that lights up.
+function sceneHarvest(t, A) {
+  const lt = t - 7.8, dawn = easeInOut(lt / 16);
+  ctx.save(); ctx.globalAlpha = A;
+  const sky = ctx.createLinearGradient(0, 0, 0, H * .7);
+  sky.addColorStop(0, `rgb(${Math.round(lerp(10, 40, dawn))},${Math.round(lerp(14, 50, dawn))},${Math.round(lerp(34, 90, dawn))})`);
+  sky.addColorStop(.6, `rgb(${Math.round(lerp(90, 229, dawn))},${Math.round(lerp(60, 140, dawn))},${Math.round(lerp(60, 90, dawn))})`);
+  sky.addColorStop(1, `rgb(255,${Math.round(lerp(170, 220, dawn))},${Math.round(lerp(120, 160, dawn))})`);
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+  const sx = W * .3, sy = lerp(H * .66, H * .5, dawn);
+  const sun = ctx.createRadialGradient(sx, sy, 0, sx, sy, 700);
+  sun.addColorStop(0, 'rgba(255,250,230,1)'); sun.addColorStop(.05, 'rgba(255,225,160,.9)'); sun.addColorStop(.35, 'rgba(255,170,90,.25)'); sun.addColorStop(1, 'rgba(255,150,80,0)');
+  ctx.fillStyle = sun; ctx.fillRect(0, 0, W, H);
+  // town on the far ridge
+  const lit = clamp((t - 18.4) / 5.5);
+  for (const b of town) {
+    const base = hillY(b.x, LAYERS[0].base, LAYERS[0].amp, LAYERS[0].f, LAYERS[0].ph) + 10;
+    ctx.fillStyle = '#3a2f3c'; ctx.fillRect(b.x, base - b.h, b.w, b.h);
+    const cols = Math.floor(b.w / 12);
+    b.win.forEach((r, i) => {
+      if (r > lit) return;
+      const cx = b.x + 4 + (i % cols) * 12, cy = base - b.h + 6 + Math.floor(i / cols) * 16;
+      ctx.fillStyle = 'rgba(255,214,130,.95)'; ctx.fillRect(cx, cy, 5, 7);
+    });
+  }
+  drawHills(t, lerp(.55, 1, dawn));
+  farms.forEach(f => farmhouse(f.x, f.y + 6, .9 + f.l * .25, clamp(1 - dawn * .7)));
+  // produce flowing to the dinner table
+  const fa = smooth((t - 13.2) / 1.5);
+  if (fa > 0) for (const fl of flows) {
+    const f = farms[fl.f], b = town[fl.b];
+    const tx = b.x + b.w / 2, ty = hillY(tx, LAYERS[0].base, LAYERS[0].amp, LAYERS[0].f, LAYERS[0].ph) - b.h * .5;
+    const kx = (f.x + tx) / 2, ky = Math.min(f.y, ty) - 180;
+    const u = (lt * .22 + fl.ph) % 1;
+    const x = (1 - u) ** 2 * f.x + 2 * (1 - u) * u * kx + u * u * tx, y = (1 - u) ** 2 * (f.y - 20) + 2 * (1 - u) * u * ky + u * u * ty;
+    ctx.globalAlpha = A * fa * smooth(u / .08) * smooth((1 - u) / .08);
+    ctx.fillStyle = fl.c; ctx.shadowColor = fl.c; ctx.shadowBlur = 12;
+    ctx.beginPath(); ctx.arc(x, y, 4.5, 0, 7); ctx.fill();
+  }
+  ctx.shadowBlur = 0; ctx.globalAlpha = A;
+  const o = { y: H * .26, glow: SKY_SHADOW };
+  speak(t, 'Imagine a world where every farmer succeeds.', 8.5, 13, { ...o, size: 66, italic: true });
+  speak(t, 'A world where every seed planted meets exact demand at the dinner table,', 13.2, 18.5, { ...o, size: 54, maxW: 1400 });
+  speak(t, 'sold instantly at peak value, feeding communities overnight.', 18.7, 24.8, { ...o, size: 56, maxW: 1500, hi: ['instantly', 'peak'] });
+  ctx.restore();
+}
+
+// C — neighbors: prosperity threads between every farm.
+const NB = 9;
+const nodes = Array.from({ length: NB }, (_, i) => { const a = i / NB * 6.283 - Math.PI / 2; return { x: W / 2 + Math.cos(a) * 620, y: H * .45 + Math.sin(a) * 235, c: i % 2 ? AMBER : TEAL }; });
+const threads = [];
+for (let i = 0; i < NB; i++) for (let j = i + 1; j < NB; j++) threads.push([i, j, R2()]);
+threads.sort((p, q) => p[2] - q[2]);
+function sceneNeighbors(t, A) {
+  ctx.save(); ctx.globalAlpha = A;
+  ctx.fillStyle = '#03060d'; ctx.fillRect(0, 0, W, H);
+  for (const s of stars) { ctx.fillStyle = `rgba(210,225,255,${(.2 + .4 * Math.sin(t + s.p) ** 2) * s.d})`; ctx.fillRect(s.x, s.y, s.s, s.s); }
+  const dim = 1 - .75 * env(t, 38.3, 42.1, .6, .3);
+  const burst = env(t, 42, 48.6, .25, 1.6);
+  const n = Math.floor(threads.length * easeInOut((t - 27.3) / 10));
+  for (let k = 0; k < n; k++) {
+    const [i, j, ph] = threads[k], p = nodes[i], q = nodes[j];
+    const mx = (p.x + q.x) / 2, my = (p.y + q.y) / 2, kx = lerp(mx, W / 2, .35), ky = lerp(my, H * .45, .35);
+    ctx.strokeStyle = `rgba(243,201,105,${(.14 + .3 * burst) * dim})`; ctx.lineWidth = 1.2 + burst;
+    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.quadraticCurveTo(kx, ky, q.x, q.y); ctx.stroke();
+    const u = (t * .35 + ph) % 1;
+    const ux = (1 - u) ** 2 * p.x + 2 * (1 - u) * u * kx + u * u * q.x, uy = (1 - u) ** 2 * p.y + 2 * (1 - u) * u * ky + u * u * q.y;
+    ctx.fillStyle = `rgba(255,240,200,${.9 * dim})`; ctx.shadowColor = GOLD; ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.arc(ux, uy, 2.4, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+  }
+  nodes.forEach((p, i) => {
+    const on = smooth((t - 26.8 - i * .25) / .8);
+    if (on <= 0) return;
+    ctx.globalAlpha = A * on;
+    if (burst > 0) {
+      const rr = ((t - 42) * 160) % 260;
+      ctx.strokeStyle = `rgba(243,201,105,${burst * (1 - rr / 260) * .7})`; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 40 + rr, 0, 7); ctx.stroke();
+    }
+    ctx.fillStyle = '#0b1320'; ctx.strokeStyle = burst > .1 ? GOLD : p.c; ctx.lineWidth = 2.5;
+    ctx.shadowColor = burst > .1 ? GOLD : p.c; ctx.shadowBlur = (16 + 30 * burst) * dim;
+    ctx.beginPath(); ctx.arc(p.x, p.y, 36, 0, 7); ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.globalAlpha = A * on * lerp(.35, 1, dim);
+    ctx.fillStyle = burst > .1 ? '#ffe7a8' : p.c;
+    ctx.beginPath(); ctx.moveTo(p.x - 14, p.y + 12); ctx.lineTo(p.x - 14, p.y - 2); ctx.lineTo(p.x, p.y - 15); ctx.lineTo(p.x + 14, p.y - 2); ctx.lineTo(p.x + 14, p.y + 12); ctx.fill();
+  });
+  ctx.globalAlpha = A;
+  speak(t, 'Now imagine a supply chain where your neighbor’s prosperity is your primary concern —', 27, 32.1, { y: H * .82, size: 50, maxW: 1450, italic: true, hi: ['neighbor'] });
+  speak(t, 'where true competition simply means striving to be the most decent human in the room.', 32.3, 38.1, { y: H * .82, size: 50, maxW: 1450, hi: ['decent'] });
+  speak(t, 'It sounds radical for a marketplace, doesn’t it?', 38.4, 41.9, { y: H * .45, size: 60, italic: true, stagger: .14, fo: .4 });
+  speak(t, 'But when deep insight meets radical collaboration, everyone wins — and they do so spectacularly.', 42.1, 48.3, { y: H * .82, size: 52, maxW: 1500, hi: ['everyone', 'wins', 'spectacularly'] });
+  ctx.restore();
+}
+
+// D — head to head: two seats rising together.
+const curve = (u, ph) => easeInOut(u) * .82 + .06 * u + .025 * Math.sin(u * 17 + ph) * (1 - u * .5);
+function sceneHeadToHead(t, A) {
+  ctx.save(); ctx.globalAlpha = A;
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#04121a'); bg.addColorStop(1, '#0a1a14');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  const hero = env(t, 67.4, 72.5, .8, 1);
+  const x0 = 380, x1 = 1540, yb = 560, yt = 210;
+  ctx.globalAlpha = A * lerp(1, .22, hero);
+  lab('CASH  ·  BOTH  SEATS  ·  HEAD  TO  HEAD', x0, yt - 40, 18, '#9fc9c0', env(t, 48.6, 72, .8, 1), 8, 'left');
+  ctx.strokeStyle = 'rgba(160,210,200,.15)'; ctx.lineWidth = 1;
+  for (let k = 0; k <= 4; k++) { const y = lerp(yb, yt, k / 4); ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.stroke(); }
+  const prog = easeInOut((t - 49) / 9);
+  [[TEAL, 0, 'P0'], [AMBER, 2.4, 'P1']].forEach(([c, ph, name]) => {
+    ctx.strokeStyle = c; ctx.lineWidth = 4; ctx.shadowColor = c; ctx.shadowBlur = 18;
+    ctx.beginPath();
+    let ex = x0, ey = yb;
+    for (let i = 0; i <= 200 * prog; i++) { const u = i / 200; ex = lerp(x0, x1, u); ey = lerp(yb, yt, curve(u, ph)); i ? ctx.lineTo(ex, ey) : ctx.moveTo(ex, ey); }
+    ctx.stroke(); ctx.shadowBlur = 0;
+    if (prog > .02) {
+      ctx.fillStyle = c; ctx.beginPath(); ctx.arc(ex, ey, 7, 0, 7); ctx.fill();
+      lab(name, ex + 26, ey + (name === 'P0' ? -16 : 16), 18, c, 1, 4, 'left', 700);
+    }
+  });
+  // both harvests sell out
+  [[TEAL, 'P0  HARVEST  SOLD', x0], [AMBER, 'P1  HARVEST  SOLD', (x0 + x1) / 2 + 30]].forEach(([c, txt, bx]) => {
+    const a = env(t, 58.4, 72, .6, 1); if (a <= 0) return;
+    const w = (x1 - x0) / 2 - 30, fill = easeInOut((t - 59) / 4.5);
+    ctx.globalAlpha = A * a * lerp(1, .22, hero);
+    lab(txt, bx, 612, 15, c, 1, 6, 'left');
+    ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(bx, 636, w, 14);
+    ctx.fillStyle = c; ctx.shadowColor = c; ctx.shadowBlur = 14; ctx.fillRect(bx, 636, w * fill, 14); ctx.shadowBlur = 0;
+    lab(`${Math.round(fill * 100)}%`, bx + w, 612, 18, '#f4efe4', 1, 2, 'right', 700);
+  });
+  ctx.globalAlpha = A;
+  speak(t, 'We set out to prove this vision, and the result was a 100% tournament win rate where no one was left behind.', 48.6, 55, { y: H * .82, size: 48, maxW: 1450, stagger: .08, hi: ['100%', 'tournament', 'win', 'rate'] });
+  speak(t, 'In head-to-head competition, we redefined victory:', 55.2, 58.5, { y: H * .82, size: 56, italic: true });
+  speak(t, 'we ensured that our competitors’ success was directly tied to our own,', 58.7, 63, { y: H * .82, size: 52, maxW: 1500 });
+  speak(t, 'empowering them to sell their entire harvest and prosper alongside us.', 63.2, 67.3, { y: H * .82, size: 52, maxW: 1500, hi: ['entire', 'alongside'] });
+  speak(t, 'Because that is the only future worth building.', 67.6, 72.2, { y: H * .45, size: 80, weight: 700, color: '#fff3dc', glow: 'rgba(255,180,90,.5)', glowBlur: 40 });
+  ctx.restore();
+}
+
+// E — the Prisoner's Dilemma, cracked without a word; then Step 0.
+function silhouette(x, y, c, glow) {
+  ctx.save();
+  ctx.fillStyle = '#0d1520'; ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.shadowColor = c; ctx.shadowBlur = 20 + 40 * glow;
+  ctx.beginPath(); ctx.arc(x, y - 150, 44, 0, 7); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.ellipse(x, y + 40, 105, 150, 0, Math.PI, 2 * Math.PI); ctx.closePath(); ctx.fill(); ctx.stroke();
+  if (glow > 0) {
+    const g = ctx.createRadialGradient(x, y - 60, 0, x, y - 60, 260);
+    g.addColorStop(0, `rgba(243,201,105,${.35 * glow})`); g.addColorStop(1, 'rgba(243,201,105,0)');
+    ctx.fillStyle = g; ctx.shadowBlur = 0; ctx.fillRect(x - 260, y - 320, 520, 520);
+  }
+  ctx.restore();
+}
+function sceneDilemma(t, A) {
+  ctx.save(); ctx.globalAlpha = A;
+  ctx.fillStyle = '#05070c'; ctx.fillRect(0, 0, W, H);
+  const glow = env(t, 87.5, 99.5, 1.5, 1);
+  silhouette(W * .13, H * .6, TEAL, glow); silhouette(W * .87, H * .6, AMBER, glow);
+  // payoff matrix
+  const m = env(t, 72.3, 82.4, 1, .9);
+  if (m > 0) {
+    ctx.globalAlpha = A * m;
+    const cw = 250, ch = 140, mx = W / 2 - cw + 40, my = 250;
+    lab('THEM', mx + cw, my - 62, 16, AMBER, 1, 8);
+    lab('COOPERATE', mx + cw / 2, my - 26, 15, '#cfd6e0', 1, 5); lab('DEFECT', mx + cw * 1.5, my - 26, 15, '#cfd6e0', 1, 5);
+    lab('US', mx - 150, my + ch, 16, TEAL, 1, 8);
+    lab('COOPERATE', mx - 20, my + ch / 2, 15, '#cfd6e0', 1, 5, 'right'); lab('DEFECT', mx - 20, my + ch * 1.5, 15, '#cfd6e0', 1, 5, 'right');
+    const pay = [['3', '3'], ['0', '5'], ['5', '0'], ['1', '1']], win = smooth((t - 76.2) / 1.2);
+    pay.forEach(([a, b], i) => {
+      const cx = mx + (i % 2) * cw, cy = my + Math.floor(i / 2) * ch, best = i === 0;
+      ctx.fillStyle = best ? `rgba(243,201,105,${.08 + .28 * win})` : `rgba(255,255,255,${.04 * (1 - win * .5)})`;
+      ctx.fillRect(cx + 3, cy + 3, cw - 6, ch - 6);
+      ctx.strokeStyle = best && win > .1 ? GOLD : 'rgba(200,210,225,.3)'; ctx.lineWidth = best ? 2 : 1;
+      if (best && win > .1) { ctx.shadowColor = GOLD; ctx.shadowBlur = 30 * win; }
+      ctx.strokeRect(cx + 3, cy + 3, cw - 6, ch - 6); ctx.shadowBlur = 0;
+      const fade = best ? 1 : 1 - .6 * win;
+      lab(a, cx + cw * .36, cy + ch / 2, 52, TEAL, fade, 0, 'center', 700, SERIF);
+      lab(',', cx + cw * .5, cy + ch / 2 + 8, 40, '#cfd6e0', fade, 0, 'center', 400, SERIF);
+      lab(b, cx + cw * .64, cy + ch / 2, 52, AMBER, fade, 0, 'center', 700, SERIF);
+    });
+    lab('ZERO  DIRECT  COMMUNICATION', W / 2, my + ch * 2 + 56, 16, '#8fa3b8', env(t, 73.5, 82.4, 1, .9), 10);
+  }
+  // Step 0 — the NeML opening
+  const p = env(t, 82, 99.6, 1, 1);
+  if (p > 0) {
+    ctx.globalAlpha = A * p;
+    const px = W / 2 - 400, py = 205, pw = 800, ph = 420;
+    ctx.fillStyle = 'rgba(8,14,22,.9)'; ctx.strokeStyle = 'rgba(111,227,255,.35)'; ctx.lineWidth = 1.5;
+    ctx.fillRect(px, py, pw, ph); ctx.strokeRect(px, py, pw, ph);
+    lab('STEP 0  ·  THE NeML MOVE', px + 34, py + 36, 18, CYAN, 1, 8, 'left');
+    NEML_ORDERS.forEach(([op, item, q], i) => {
+      const s = 82.8 + i * .75, k = clamp((t - s) / .5);
+      if (k <= 0) return;
+      const txt = `["${op}", "${item}", ${q}]`, shown = txt.slice(0, Math.ceil(txt.length * k));
+      ctx.font = `400 26px ${MONO}`; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.letterSpacing = '0px';
+      ctx.fillStyle = op === 'SELL' ? AMBER : '#e8f4ff';
+      ctx.fillText(shown, px + 60, py + 96 + i * 42);
+      if (k >= 1) { ctx.fillStyle = TEAL; ctx.fillText('✓', px + pw - 70, py + 96 + i * 42); }
+    });
+    const v = Math.round(NEML_VALUE * easeOut((t - 87.3) / 3.2));
+    if (t > 87.1) {
+      ctx.save();
+      ctx.font = `700 76px ${SERIF}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = GOLD; ctx.shadowColor = 'rgba(255,190,80,.7)'; ctx.shadowBlur = 40;
+      ctx.fillText(`+$${Math.max(0, v)}`, W / 2, py + ph - 70);
+      ctx.restore();
+      lab('ZERO  WASTED  MOVES', W / 2, py + ph - 20, 14, '#cfd6e0', env(t, 88, 99.6, .8, 1), 8);
+      // scalable: the value echoes outward
+      const sc = env(t, 92.7, 99.6, .8, 1);
+      for (let r = 0; r < 4 && sc > 0; r++) {
+        const rr = ((t - 92.7) * 140 + r * 110) % 440;
+        ctx.strokeStyle = `rgba(243,201,105,${sc * .5 * (1 - rr / 440)})`; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.ellipse(W / 2, py + ph - 70, 120 + rr * 1.6, 40 + rr * .5, 0, 0, 7); ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = A;
+  speak(t, 'With zero direct communication, we cracked the Prisoner’s Dilemma.', 72.5, 77, { y: H * .82, size: 54, maxW: 1500, hi: ['Prisoner', 'Dilemma'] });
+  speak(t, 'We have the gameplay and empirical evidence to prove it.', 77.2, 81, { y: H * .82, size: 54, italic: true });
+  speak(t, 'On Step 0, we fundamentally transformed the game, stunning the field with the NeML move.', 81.3, 87, { y: H * .82, size: 50, maxW: 1450, hi: ['NeML'] });
+  speak(t, 'Through perfect signaling, zero wasted moves could instantly yield $80 of value —', 87.2, 92.5, { y: H * .82, size: 50, maxW: 1450, hi: ['$80'] });
+  speak(t, 'a level of scalable efficiency that redefines financial possibilities.', 92.7, 98.8, { y: H * .82, size: 52, maxW: 1500, italic: true });
+  ctx.restore();
+}
+
+// F — mutual uplift: two strands rising together; fear clears to dawn.
+const storm = Array.from({ length: 40 }, () => ({ x: R2() * (W + 600) - 300, y: R2() * 300 + 120, rx: R2() * 320 + 220, ry: R2() * 70 + 50, v: R2() * 30 + 10 }));
+function sceneUplift(t, A) {
+  const lt = t - 98.5, clear = easeInOut((t - 109.5) / 9);
+  ctx.save(); ctx.globalAlpha = A;
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, `rgb(${Math.round(lerp(6, 44, clear))},${Math.round(lerp(8, 58, clear))},${Math.round(lerp(16, 104, clear))})`);
+  sky.addColorStop(.7, `rgb(${Math.round(lerp(14, 236, clear))},${Math.round(lerp(14, 160, clear))},${Math.round(lerp(22, 100, clear))})`);
+  sky.addColorStop(1, `rgb(${Math.round(lerp(20, 255, clear))},${Math.round(lerp(18, 214, clear))},${Math.round(lerp(24, 150, clear))})`);
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+  // fear: heavy clouds that thin out and drift away
+  for (const c of storm) {
+    const x = ((c.x + lt * c.v * (1 + clear * 4)) % (W + 600)) - 300;
+    ctx.fillStyle = `rgba(${Math.round(lerp(26, 255, clear))},${Math.round(lerp(28, 220, clear))},${Math.round(lerp(36, 190, clear))},${lerp(.55, .06, clear)})`;
+    ctx.beginPath(); ctx.ellipse(x, c.y - clear * 120, c.rx, c.ry, 0, 0, 7); ctx.fill();
+  }
+  if (clear > 0) { ctx.globalAlpha = A * clear; drawHills(t, 1); ctx.globalAlpha = A; }
+  // the double helix
+  const quote = env(t, 104.2, 109.2, .8, .8);
+  ctx.globalAlpha = A * lerp(1, .35, quote) * (1 - clear * .5);
+  for (let i = 0; i < 90; i++) {
+    const y = H + 40 - ((i * 13 + lt * 90) % (H + 80));
+    for (const [c, off] of [[TEAL, 0], [AMBER, Math.PI]]) {
+      const ang = y * .012 - lt * 1.4 + off, z = Math.cos(ang);
+      ctx.fillStyle = c; ctx.shadowColor = c; ctx.shadowBlur = 12;
+      ctx.globalAlpha = A * lerp(1, .35, quote) * (1 - clear * .5) * (.45 + .55 * (z + 1) / 2);
+      ctx.beginPath(); ctx.arc(W / 2 + Math.sin(ang) * 170, y, 3 + 2.5 * (z + 1) / 2, 0, 7); ctx.fill();
+    }
+    if (i % 3 === 0) {
+      const ang = y * .012 - lt * 1.4;
+      ctx.strokeStyle = 'rgba(243,201,105,.25)'; ctx.lineWidth = 1; ctx.shadowBlur = 0;
+      ctx.beginPath(); ctx.moveTo(W / 2 + Math.sin(ang) * 170, y); ctx.lineTo(W / 2 - Math.sin(ang) * 170, y); ctx.stroke();
+    }
+  }
+  ctx.shadowBlur = 0; ctx.globalAlpha = A;
+  const o = { glow: 'rgba(0,0,0,.8)' };
+  speak(t, 'Beyond the numbers, the real triumph was the spirit of mutual uplift:', 99.5, 104, { ...o, y: H * .82, size: 54, maxW: 1500, hi: ['uplift'] });
+  speak(t, '“I learned this; now let’s win together.”', 104.3, 109.2, { y: H * .45, size: 86, italic: true, color: '#ffe7a8', glow: 'rgba(255,170,60,.55)', glowBlur: 36, stagger: .18 });
+  speak(t, 'By replacing fear with collaborative insight, we eliminated the need for reckless, desperate risks —', 109.4, 114.4, { ...o, y: H * .3, size: 50, maxW: 1450, glow: SKY_SHADOW });
+  speak(t, 'creating an ecosystem where financial security is guaranteed and shared success is the only way forward.', 114.6, 120.6, { ...o, y: H * .3, size: 52, maxW: 1450, glow: SKY_SHADOW, hi: ['shared', 'success'] });
+  ctx.restore();
+}
+
+// G — end card.
+function sceneEnd(t, A) {
+  ctx.save(); ctx.globalAlpha = A;
+  const g = ctx.createRadialGradient(W / 2, H * .55, 0, W / 2, H * .55, 1100);
+  g.addColorStop(0, '#2a1a0a'); g.addColorStop(1, '#040302');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  for (const d of pollen) {
+    const x = (d.x + t * d.v) % W, y = d.y - Math.sin(t * .5 + d.p) * 16;
+    ctx.fillStyle = `rgba(255,214,150,${.2 + .3 * Math.sin(t + d.p) ** 2})`;
+    ctx.beginPath(); ctx.arc(x, y, d.s, 0, 7); ctx.fill();
+  }
+  const a = env(t, 121, 128.5, 1.4, 1.6);
+  if (a > 0) {
+    ctx.globalAlpha = A * a; ctx.font = `italic 400 130px ${SERIF}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#fff1d6'; ctx.shadowColor = 'rgba(255,180,90,.6)'; ctx.shadowBlur = 50;
+    ctx.fillText('Everyone wins.', W / 2, H / 2 - 30);
+  }
+  ctx.shadowBlur = 0;
+  const b = env(t, 122.6, 128.5, 1.2, 1.6);
+  ctx.globalAlpha = A * b; ctx.strokeStyle = GOLD; ctx.lineWidth = 1;
+  const L = 420 * easeOut((t - 122.6) / 2);
+  ctx.beginPath(); ctx.moveTo(W / 2 - L, H / 2 + 60); ctx.lineTo(W / 2 + L, H / 2 + 60); ctx.stroke();
+  lab('KAGGRICULTURE  CLOUDFRONTS', W / 2, H / 2 + 104, 30, GOLD, 1, 16, 'center', 400, SERIF);
+  ctx.restore();
+}
+
+const SCENES = [
+  [0, 8.9, sceneTitle], [7.8, 26.5, sceneHarvest], [25.8, 48.9, sceneNeighbors], [47.8, 72.8, sceneHeadToHead],
+  [71.6, 99.9, sceneDilemma], [98.6, 121.3, sceneUplift], [120.3, 129, sceneEnd],
+];
+
+film(128, SCENES);
+</script>
+</body>
+</html>
