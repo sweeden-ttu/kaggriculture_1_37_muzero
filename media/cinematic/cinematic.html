@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaggriculture Cinematic</title>
+<style>
+  :root { --bg: #000; }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; margin: auto;
+           position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="engine.js"></script>
+<script>
+/*
+ * Kaggriculture CloudFronts — "Option 1: Cinematic & Visionary"
+ */
+// ================================================================= SCENES
+// S0 — Opening: dust in a shaft of light, the studio credit.
+function sceneOpen(t, A) {
+  ctx.save(); ctx.globalAlpha = A;
+  ctx.fillStyle = '#030303'; ctx.fillRect(0, 0, W, H);
+  const sx = lerp(W * .25, W * .7, t / 8);
+  const beam = ctx.createRadialGradient(sx, H * .45, 0, sx, H * .45, 900);
+  beam.addColorStop(0, 'rgba(243,201,105,.18)'); beam.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = beam; ctx.fillRect(0, 0, W, H);
+  for (const d of dust) {
+    const x = (d.x + t * d.v) % W, y = d.y + Math.sin(t * .6 + d.p) * 18;
+    const lit = Math.exp(-Math.pow((x - sx) / 520, 2));
+    ctx.fillStyle = `rgba(255,220,150,${.08 + .7 * lit})`;
+    ctx.beginPath(); ctx.arc(x, y, d.s, 0, 7); ctx.fill();
+  }
+  const a = env(t, 1.2, 7.2, 1.6, 1.2);
+  label('KAGGRICULTURE  CLOUDFRONTS', W / 2, H / 2 - 20, 54, GOLD, a, 22, 'center', 400, SERIF);
+  // hairlines grow out from the credit
+  ctx.globalAlpha = A * a; ctx.strokeStyle = GOLD; ctx.lineWidth = 1.2;
+  const L = 520 * easeOut((t - 1.6) / 2.4);
+  ctx.beginPath(); ctx.moveTo(W / 2 - L, H / 2 + 34); ctx.lineTo(W / 2 + L, H / 2 + 34); ctx.stroke();
+  label('P R E S E N T S', W / 2, H / 2 + 76, 20, '#d9d2c3', A * env(t, 3.2, 7.2, 1.2, 1.2), 10);
+  ctx.restore();
+}
+
+// S1 — The storm: the challenge.
+function sceneStorm(t, A) {
+  const lt = t - 6.5;
+  ctx.save(); ctx.globalAlpha = A;
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, '#05080d'); sky.addColorStop(.6, '#101a24'); sky.addColorStop(1, '#1b2126');
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+  // lightning
+  const strikes = [9.3, 9.45, 12.7, 15.1];
+  let flash = 0;
+  for (const s of strikes) flash = Math.max(flash, Math.exp(-Math.max(0, t - s) * 7) * (t >= s ? 1 : 0));
+  if (flash > 0.02) {
+    ctx.fillStyle = `rgba(190,215,255,${flash * .55})`; ctx.fillRect(0, 0, W, H);
+    const rb = mulberry(Math.floor(t * 2) + 7);
+    ctx.strokeStyle = `rgba(235,245,255,${flash})`; ctx.lineWidth = 3; ctx.shadowColor = '#bcd4ff'; ctx.shadowBlur = 30;
+    let x = W * (.3 + rb() * .45), y = 0;
+    ctx.beginPath(); ctx.moveTo(x, y);
+    while (y < H * .78) { x += (rb() - .5) * 120; y += rb() * 70 + 30; ctx.lineTo(x, y); }
+    ctx.stroke(); ctx.shadowBlur = 0;
+  }
+  // clouds
+  for (const c of clouds) {
+    const x = ((c.x + lt * c.v) % (W + 800)) - 400;
+    const g = ctx.createRadialGradient(x, c.y, 0, x, c.y, c.rx);
+    const lum = 30 + c.sh * 30 + flash * 90;
+    g.addColorStop(0, `rgba(${lum},${lum + 6},${lum + 14},.55)`); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.ellipse(x, c.y, c.rx, c.ry * 2, 0, 0, 7); ctx.fill();
+  }
+  // parched fields on the horizon
+  const hz = H * .8;
+  ctx.fillStyle = '#16110b'; ctx.fillRect(0, hz, W, H - hz);
+  ctx.strokeStyle = 'rgba(120,90,50,.35)'; ctx.lineWidth = 1.2;
+  for (let i = -30; i <= 30; i++) { ctx.beginPath(); ctx.moveTo(W / 2 + i * 12, hz); ctx.lineTo(W / 2 + i * 150, H); ctx.stroke(); }
+  // rain
+  ctx.strokeStyle = 'rgba(170,190,215,.28)'; ctx.lineWidth = 1.3;
+  ctx.beginPath();
+  for (const d of rain) {
+    const y = (d.y + lt * d.v) % H, x = (d.x - lt * d.v * .22) % (W + 400);
+    const xx = x < 0 ? x + W + 400 : x;
+    ctx.moveTo(xx, y); ctx.lineTo(xx - d.l * .22, y + d.l);
+  }
+  ctx.stroke();
+  speak(t, 'When we set out to compete in this challenge,', 7.2, 12.2, { y: H * .46, size: 64, italic: true });
+  speak(t, 'we didn’t build for second place.', 12.3, 16.8, { y: H * .46, size: 76 });
+  ctx.restore();
+}
+
+// S2 — Absolute victory.
+function sceneVictory(t, A) {
+  const lt = t - 16.5;
+  ctx.save(); ctx.globalAlpha = A;
+  ctx.fillStyle = '#060402'; ctx.fillRect(0, 0, W, H);
+  const burst = easeOut(lt / 1.2);
+  const g = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, 1100 * burst + 1);
+  g.addColorStop(0, 'rgba(255,214,130,.55)'); g.addColorStop(.35, 'rgba(184,134,43,.22)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // god rays
+  ctx.translate(W / 2, H / 2); ctx.rotate(lt * .05);
+  for (let i = 0; i < 36; i++) {
+    ctx.rotate(Math.PI * 2 / 36);
+    ctx.fillStyle = `rgba(255,210,120,${.035 + .03 * Math.sin(i * 7.1 + lt)})`;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(1400, -40 - (i % 3) * 25); ctx.lineTo(1400, 40 + (i % 3) * 25); ctx.fill();
+  }
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  // rising sparks
+  for (const e of embers) {
+    const y = H - ((H - e.y + lt * e.v * 1.4) % H), x = e.x + Math.sin(lt + e.p) * 20;
+    ctx.fillStyle = `rgba(255,${190 + Math.round(e.w * 40)},110,${.5 * burst})`;
+    ctx.beginPath(); ctx.arc(x, y, e.s, 0, 7); ctx.fill();
+  }
+  label('WE  AIMED  FOR', W / 2, H / 2 - 120, 30, '#efe3c8', env(t, 17.1, 25, .8, 1.1), 18);
+  // hero line, pushing in slowly
+  const a = env(t, 17.6, 25, .9, 1.1);
+  if (a > 0) {
+    const sc = lerp(1.14, 1.0, easeOut((t - 17.6) / 5));
+    ctx.save(); ctx.globalAlpha = A * a; ctx.translate(W / 2, H / 2 + 20); ctx.scale(sc, sc);
+    ctx.font = `700 150px ${SERIF}`; ctx.letterSpacing = '10px'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const tg = ctx.createLinearGradient(-700, -80, 700, 80);
+    const sweep = clamp((t - 18.2) / 3);
+    tg.addColorStop(0, GOLD_DEEP); tg.addColorStop(clamp(sweep - .08), GOLD); tg.addColorStop(clamp(sweep), '#fff8e2');
+    tg.addColorStop(clamp(sweep + .08), GOLD); tg.addColorStop(1, GOLD_DEEP);
+    ctx.shadowColor = 'rgba(255,190,80,.6)'; ctx.shadowBlur = 50;
+    ctx.fillStyle = tg; ctx.fillText('ABSOLUTE VICTORY.', 0, 0);
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+// S3 — Intelligence meets global survival: a network wraps the planet.
+const arcs = Array.from({ length: 240 }, () => [Math.floor(R() * globe.length), Math.floor(R() * globe.length), R()]);
+function sceneNetwork(t, A) {
+  const lt = t - 24.5;
+  ctx.save(); ctx.globalAlpha = A;
+  ctx.fillStyle = '#01040a'; ctx.fillRect(0, 0, W, H);
+  for (const s of stars) { ctx.fillStyle = `rgba(200,225,255,${(.25 + .5 * Math.sin(t * 1.3 + s.p) ** 2) * s.d})`; ctx.fillRect(s.x, s.y, s.s, s.s); }
+  const r = lerp(360, 430, easeInOut(lt / 15)), cx = W / 2, cy = H / 2 + 20, rot = lt * .09;
+  drawGlobe(t, cx, cy, r, rot, 'tech', A);
+  // arcs of intelligence, switching on progressively
+  const n = Math.floor(arcs.length * easeInOut((lt - 1) / 11));
+  for (let i = 0; i < n; i++) {
+    const [ia, ib, ph] = arcs[i];
+    const p = project(globe[ia], cx, cy, r, rot), q = project(globe[ib], cx, cy, r, rot);
+    if (p.z < .05 || q.z < .05) continue;
+    const mx = (p.x + q.x) / 2, my = (p.y + q.y) / 2, dx = mx - cx, dy = my - cy, dl = Math.hypot(dx, dy) + 1;
+    const lift = 60 + Math.hypot(p.x - q.x, p.y - q.y) * .35;
+    const kx = mx + dx / dl * lift, ky = my + dy / dl * lift;
+    ctx.strokeStyle = `rgba(111,227,255,${.18 * Math.min(p.z, q.z) + .05})`; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.quadraticCurveTo(kx, ky, q.x, q.y); ctx.stroke();
+    const u = (t * .5 + ph) % 1, ux = (1 - u) ** 2 * p.x + 2 * (1 - u) * u * kx + u * u * q.x, uy = (1 - u) ** 2 * p.y + 2 * (1 - u) * u * ky + u * u * q.y;
+    ctx.fillStyle = i % 9 === 0 ? GOLD : '#dff8ff';
+    ctx.shadowColor = CYAN; ctx.shadowBlur = 12;
+    ctx.beginPath(); ctx.arc(ux, uy, 2.4, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+  }
+  // orbit ring of "innovators"
+  ctx.strokeStyle = 'rgba(243,201,105,.25)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.ellipse(cx, cy, r * 1.45, r * .38, -.18, 0, 7); ctx.stroke();
+  for (let i = 0; i < 14; i++) {
+    const ang = i / 14 * 6.283 + lt * .15, x = cx + Math.cos(ang) * r * 1.45 * Math.cos(-.18) - Math.sin(ang) * r * .38 * Math.sin(-.18);
+    const y = cy + Math.cos(ang) * r * 1.45 * Math.sin(-.18) + Math.sin(ang) * r * .38 * Math.cos(-.18);
+    ctx.fillStyle = GOLD; ctx.shadowColor = GOLD; ctx.shadowBlur = 16;
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+  }
+  ctx.fillStyle = 'rgba(1,4,10,.45)'; ctx.fillRect(0, H * .72, W, H * .28);
+  speak(t, 'Unprecedented success for every innovator involved.', 25.2, 29.6, { y: H * .82, size: 54, italic: true });
+  speak(t, 'Not just to top a leaderboard —', 29.8, 33.2, { y: H * .82, size: 58 });
+  speak(t, 'but to redefine what is possible at the intersection of high-performance intelligence and global survival.', 33.3, 39,
+    { y: H * .82, size: 48, maxW: 1400, stagger: .09 });
+  ctx.restore();
+}
+
+// S4 — Climate volatility.
+const anomaly = (() => { const r = mulberry(4), a = []; let v = 0; for (let i = 0; i < 260; i++) { v = v * .82 + (r() - .5) * (0.6 + i / 110) + i * .0009; a.push(v); } return a; })();
+function sceneClimate(t, A) {
+  const lt = t - 38.5;
+  ctx.save(); ctx.globalAlpha = A;
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0d0302'); bg.addColorStop(1, '#2a0904');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  const heat = easeInOut(lt / 10);
+  drawGlobe(t, W * .7, H * .42, 330, lt * .12 + 2, 'heat', A, heat);
+  // heat shimmer bands
+  for (let i = 0; i < 6; i++) {
+    const y = H * .15 + i * 110 + Math.sin(t * 1.7 + i) * 12;
+    const g = ctx.createLinearGradient(0, y - 40, 0, y + 40);
+    g.addColorStop(0, 'rgba(255,90,30,0)'); g.addColorStop(.5, `rgba(255,90,30,${.035 + .03 * heat})`); g.addColorStop(1, 'rgba(255,90,30,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, y - 40, W, 80);
+  }
+  // volatility chart
+  const x0 = 150, x1 = W * .5, yb = H * .5, amp = 95;
+  label('CLIMATE  VOLATILITY  INDEX', x0, H * .2, 20, '#ffb08a', env(t, 39.2, 50.8, .8, 1), 8, 'left');
+  ctx.strokeStyle = 'rgba(255,170,130,.18)'; ctx.lineWidth = 1;
+  for (let k = -2; k <= 2; k++) { ctx.beginPath(); ctx.moveTo(x0, yb + k * amp); ctx.lineTo(x1, yb + k * amp); ctx.stroke(); }
+  const n = Math.floor(anomaly.length * easeOut((lt - .6) / 8));
+  ctx.strokeStyle = '#ff5a2a'; ctx.lineWidth = 3; ctx.shadowColor = '#ff3b12'; ctx.shadowBlur = 16;
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) { const x = lerp(x0, x1, i / (anomaly.length - 1)), y = yb - anomaly[i] * amp * .7; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+  ctx.stroke(); ctx.shadowBlur = 0;
+  const tags = [['EXTREME HEAT', 41.5, .25], ['DROUGHT', 43.2, .55], ['FLOOD', 45, .8], ['CROP FAILURE', 46.6, .95]];
+  for (const [txt, s, fx] of tags) {
+    const a = env(t, s, 50.8, .4, 1) * (.75 + .25 * Math.sin(t * 9 + s));
+    label(txt, lerp(x0, x1, fx), yb - 170 - (fx * 3 % 1) * 40, 18, '#ffd2bf', a, 5);
+  }
+  speak(t, 'In an era defined by extreme climate volatility,', 39.3, 44.3, { y: H * .8, size: 58, italic: true });
+  speak(t, 'incremental progress is no longer enough.', 44.4, 50.6, { y: H * .8, size: 70 });
+  ctx.restore();
+}
+
+// S5 — The revolution: dead fields brought to life by latent search.
+const tiles = [];
+{ const r = mulberry(55); for (let i = 0; i < 12; i++) for (let j = 0; j < 12; j++) tiles.push({ i, j, crop: Math.floor(r() * 4), n: r() }); }
+const tree = [];
+(function grow(x, y, depth, spread, parent, best) {
+  const id = tree.length; tree.push({ x, y, depth, parent, best });
+  if (depth >= 5) return;
+  const k = depth < 2 ? 3 : 2;
+  for (let c = 0; c < k; c++) {
+    const nx = x + (c - (k - 1) / 2) * spread, ny = y + 44;
+    grow(nx, ny, depth + 1, spread * .48, id, best && c === (depth % 2 ? 0 : k - 1 - (depth === 0 ? 1 : 0)));
+  }
+})(W / 2, 200, 0, 360, -1, true);
+function sceneRevolution(t, A) {
+  const lt = t - 50.5;
+  ctx.save(); ctx.globalAlpha = A;
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#02060a'); bg.addColorStop(1, '#071208');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  const zoom = lerp(1, 1.08, easeInOut(lt / 16));
+  ctx.translate(W / 2, H / 2); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -H / 2);
+  // isometric farm
+  const cx = W / 2, cy = H * .6, tw = 84, th = 42;
+  const wave = (lt - 4.5) * 3.2; // radius in tiles
+  const rows = [[0, 1, .2], [1, 0, .2]];
+  for (const tl of tiles) {
+    const x = cx + (tl.i - tl.j) * tw / 2, y = cy + (tl.i + tl.j - 11) * th / 2 + 60;
+    const d = Math.hypot(tl.i - 5.5, tl.j - 5.5);
+    const g = smooth((wave - d) / 1.8);
+    const dead = [58 + tl.n * 14, 40 + tl.n * 8, 24];
+    const cropCols = [[64, 150, 70], [96, 170, 60], [170, 140, 50], [70, 130, 110]][tl.crop];
+    const col = dead.map((v, k) => Math.round(lerp(v, cropCols[k], g)));
+    ctx.fillStyle = `rgb(${col})`;
+    ctx.beginPath(); ctx.moveTo(x, y - th / 2); ctx.lineTo(x + tw / 2, y); ctx.lineTo(x, y + th / 2); ctx.lineTo(x - tw / 2, y); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = `rgba(${g > .5 ? '140,255,170' : '120,90,50'},${.25 + .35 * g})`; ctx.lineWidth = 1; ctx.stroke();
+    if (g < .5) { // cracks
+      ctx.strokeStyle = `rgba(20,12,6,${.6 * (1 - g * 2)})`;
+      ctx.beginPath(); ctx.moveTo(x - 20, y - 4); ctx.lineTo(x - 4, y + 6); ctx.lineTo(x + 18, y - 2); ctx.stroke();
+    }
+    if (g > .05) { // crops growing
+      ctx.strokeStyle = `rgba(190,255,170,${.75 * g})`; ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let s = -2; s <= 2; s++) for (let u = -2; u <= 2; u++) {
+        const px = x + (s - u) * tw / 12, py = y + (s + u) * th / 12;
+        ctx.moveTo(px, py); ctx.lineTo(px, py - 10 * g - tl.n * 4);
+      }
+      ctx.stroke();
+    }
+    // the wavefront glows
+    const front = Math.exp(-Math.pow(wave - d, 2) * 1.2);
+    if (front > .05) { ctx.fillStyle = `rgba(111,227,255,${.35 * front})`; ctx.beginPath(); ctx.moveTo(x, y - th / 2); ctx.lineTo(x + tw / 2, y); ctx.lineTo(x, y + th / 2); ctx.lineTo(x - tw / 2, y); ctx.fill(); }
+  }
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  // latent MCTS tree descending from the sky
+  const grow = (lt - 2.2) * 1.5;
+  for (const nd of tree) {
+    if (nd.parent < 0) continue;
+    const p = tree[nd.parent], k = clamp(grow - nd.depth + 1);
+    if (k <= 0) continue;
+    const ex = lerp(p.x, nd.x, k), ey = lerp(p.y, nd.y, k);
+    const hot = nd.best && lt > 7.5;
+    ctx.strokeStyle = hot ? GOLD : 'rgba(111,227,255,.55)'; ctx.lineWidth = hot ? 3.2 : 1.4;
+    if (hot) { ctx.shadowColor = GOLD; ctx.shadowBlur = 18; }
+    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(ex, ey); ctx.stroke(); ctx.shadowBlur = 0;
+    if (k >= 1) { ctx.fillStyle = hot ? '#fff1c4' : '#bff2ff'; ctx.beginPath(); ctx.arc(nd.x, nd.y, hot ? 5 : 3.2, 0, 7); ctx.fill(); }
+  }
+  if (grow > 0) { ctx.fillStyle = '#fff'; ctx.shadowColor = CYAN; ctx.shadowBlur = 24; ctx.beginPath(); ctx.arc(tree[0].x, tree[0].y, 7, 0, 7); ctx.fill(); ctx.shadowBlur = 0; }
+  label('LATENT  MCTS', tree[0].x + 120, tree[0].y, 16, CYAN, env(t, 53, 61.6, .8, .8), 8);
+  // beams from leaves down to the fields
+  const beam = env(t, 58.5, 66, 1, 1);
+  if (beam > 0) for (const nd of tree) if (nd.depth === 5) {
+    const gr = ctx.createLinearGradient(nd.x, nd.y, nd.x, H * .45);
+    gr.addColorStop(0, `rgba(${nd.best ? '243,201,105' : '111,227,255'},${.35 * beam})`); gr.addColorStop(1, 'rgba(111,227,255,0)');
+    ctx.fillStyle = gr; ctx.fillRect(nd.x - 1.5, nd.y, 3, H * .45 - nd.y);
+  }
+  ctx.fillStyle = 'rgba(2,6,10,.5)'; ctx.fillRect(0, H * .76, W, H * .24);
+  speak(t, 'We confronted a massive agricultural hurdle', 51.2, 56.2, { y: H * .82, size: 58, italic: true });
+  speak(t, 'and transformed it into an intelligence-driven farming revolution.', 56.3, 62, { y: H * .82, size: 56, maxW: 1500 });
+  const specs = ['hθ  REPRESENTATION', 'gθ  DYNAMICS', 'fθ  PREDICTION', 'SAMPLED  MUZERO  SEARCH'];
+  specs.forEach((s, i) => label(s, W * (.2 + i * .2), H * .85, 20, i === 3 ? GOLD : CYAN, env(t, 62.2 + i * .35, 66, .5, .9), 6));
+  ctx.restore();
+}
+
+// S6 — First place.
+function laurel(cx, cy, r, side, grow) {
+  const n = 12, a0 = Math.PI / 2 - .38, a1 = -Math.PI / 2 + .62;
+  const at = k => { const a = lerp(a0, a1, k); return side > 0 ? a : Math.PI - a; };
+  // stem
+  ctx.lineWidth = 4; ctx.strokeStyle = ctx.fillStyle;
+  ctx.beginPath();
+  for (let k = 0; k <= grow; k += .02) { const a = at(k); ctx.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); }
+  ctx.stroke();
+  for (let i = 0; i < n; i++) {
+    const k = (i + .5) / n; if (k > grow) break;
+    const a = at(k), x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+    const dir = a - side * Math.PI / 2; // tangent pointing up the branch
+    for (const o of [-1, 1]) {
+      const d = dir + o * .62, sz = 1 - k * .35;
+      ctx.save(); ctx.translate(x + Math.cos(d) * 20 * sz, y + Math.sin(d) * 20 * sz); ctx.rotate(d);
+      ctx.beginPath(); ctx.ellipse(0, 0, 24 * sz, 8.5 * sz, 0, 0, 7); ctx.fill(); ctx.restore();
+    }
+  }
+  const a = at(Math.min(grow, 1)), tx = cx + Math.cos(a) * r, ty = cy + Math.sin(a) * r, d = a - side * Math.PI / 2;
+  if (grow >= 1) { ctx.save(); ctx.translate(tx + Math.cos(d) * 16, ty + Math.sin(d) * 16); ctx.rotate(d); ctx.beginPath(); ctx.ellipse(0, 0, 20, 7, 0, 0, 7); ctx.fill(); ctx.restore(); }
+}
+function sceneWinners(t, A) {
+  const lt = t - 65.5;
+  ctx.save(); ctx.globalAlpha = A;
+  const bg = ctx.createRadialGradient(W / 2, H * .42, 0, W / 2, H * .42, 1100);
+  bg.addColorStop(0, '#2a1d08'); bg.addColorStop(.5, '#0d0904'); bg.addColorStop(1, '#030201');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  for (const e of embers) {
+    const y = H - ((H - e.y + lt * e.v) % H), x = e.x + Math.sin(lt * .8 + e.p) * 30;
+    ctx.fillStyle = `rgba(255,214,140,${.35 + .3 * Math.sin(lt * 3 + e.p)})`;
+    ctx.beginPath(); ctx.arc(x, y, e.s * .9, 0, 7); ctx.fill();
+  }
+  const cx = W / 2, cy = H * .38, gr = easeOut((lt - .3) / 3);
+  ctx.fillStyle = GOLD; ctx.shadowColor = 'rgba(255,190,80,.7)'; ctx.shadowBlur = 25;
+  laurel(cx, cy, 230, 1, gr); laurel(cx, cy, 230, -1, gr); ctx.shadowBlur = 0;
+  const a = env(t, 66.2, 77, 1, 1.1);
+  if (a > 0) {
+    ctx.save(); ctx.globalAlpha = A * a;
+    const sc = lerp(1.25, 1, easeOut((lt - .7) / 2.4));
+    ctx.translate(cx, cy + 10); ctx.scale(sc, sc);
+    ctx.font = `700 210px ${SERIF}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const tg = ctx.createLinearGradient(0, -110, 0, 110);
+    tg.addColorStop(0, '#fff4d0'); tg.addColorStop(.5, GOLD); tg.addColorStop(1, GOLD_DEEP);
+    ctx.fillStyle = tg; ctx.shadowColor = 'rgba(255,190,80,.7)'; ctx.shadowBlur = 60;
+    ctx.fillText('1', -38, 0);
+    ctx.font = `700 80px ${SERIF}`; ctx.fillText('ST', 88, -52);
+    ctx.restore();
+  }
+  // leaderboard score ticking up
+  const cnt = Math.round(2033 * easeOut((lt - 1.2) / 4.5));
+  label('BEST  KAGGLE  SCORE', cx, H * .64, 18, '#e7d9b8', env(t, 67, 77, 1, 1.1), 10);
+  label(String(Math.max(0, cnt)).padStart(4, '0'), cx, H * .69, 54, GOLD, env(t, 67, 77, 1, 1.1), 14, 'center', 700, SERIF);
+  speak(t, 'Today, as first-place winners,', 66.3, 70.8, { y: H * .82, size: 60, italic: true });
+  speak(t, 'we aren’t just presenting a model.', 70.9, 76.8, { y: H * .82, size: 66 });
+  ctx.restore();
+}
+
+// S7 — Sunrise over a fed world.
+function sceneFuture(t, A) {
+  const lt = t - 76.5;
+  ctx.save(); ctx.globalAlpha = A;
+  const rise = easeInOut(lt / 9);
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, '#01030a'); sky.addColorStop(.55, `rgb(${Math.round(lerp(4, 40, rise))},${Math.round(lerp(8, 30, rise))},${Math.round(lerp(20, 45, rise))})`);
+  sky.addColorStop(1, '#000');
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+  for (const s of stars) { ctx.fillStyle = `rgba(220,230,255,${(1 - rise) * .6 * s.d})`; ctx.fillRect(s.x, s.y * .7, s.s, s.s); }
+  const r = 1250, cx = W / 2, cy = H + r * .62;
+  // the sun cresting the limb
+  const sx = W * .5, sy = cy - r - lerp(-40, 70, rise);
+  const sun = ctx.createRadialGradient(sx, sy, 0, sx, sy, 900);
+  sun.addColorStop(0, `rgba(255,248,225,${.95 * rise})`); sun.addColorStop(.06, `rgba(255,214,130,${.8 * rise})`);
+  sun.addColorStop(.3, `rgba(255,150,60,${.25 * rise})`); sun.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = sun; ctx.fillRect(0, 0, W, H);
+  drawGlobe(t, cx, cy, r, lt * .03 + 1.1, 'life', A, easeInOut((lt - 1) / 7), 0);
+  // limb light
+  ctx.strokeStyle = `rgba(255,220,150,${.8 * rise})`; ctx.lineWidth = 4; ctx.shadowColor = '#ffcf7a'; ctx.shadowBlur = 40;
+  ctx.beginPath(); ctx.arc(cx, cy, r + 2, Math.PI * 1.25, Math.PI * 1.75); ctx.stroke(); ctx.shadowBlur = 0;
+  // anamorphic flare
+  const fl = ctx.createLinearGradient(0, sy, W, sy);
+  fl.addColorStop(0, 'rgba(120,180,255,0)'); fl.addColorStop(.5, `rgba(200,225,255,${.45 * rise})`); fl.addColorStop(1, 'rgba(120,180,255,0)');
+  ctx.fillStyle = fl; ctx.fillRect(0, sy - 2, W, 4);
+  speak(t, 'We are presenting', 77.6, 86.2, { y: H * .3, size: 58, italic: true, glow: 'rgba(0,0,0,.6)' });
+  speak(t, 'the future of world food security.', 78.9, 86.2, { y: H * .4, size: 88, weight: 700, color: '#fff6e0', glow: 'rgba(255,170,60,.55)', glowBlur: 40 });
+  ctx.restore();
+}
+
+// S8 — "This is how we did it." and the end card.
+function sceneFinale(t, A) {
+  ctx.save(); ctx.globalAlpha = A;
+  ctx.fillStyle = '#020202'; ctx.fillRect(0, 0, W, H);
+  speak(t, 'This is how we did it.', 87.2, 91.6, { y: H / 2, size: 84, italic: true, stagger: .22, fo: 1.2 });
+  const a = env(t, 91.8, 96.5, 1.4, 1.5);
+  label('KAGGRICULTURE  CLOUDFRONTS', W / 2, H / 2 - 40, 64, GOLD, a, 20, 'center', 400, SERIF);
+  ctx.globalAlpha = A * a; ctx.strokeStyle = GOLD; ctx.lineWidth = 1;
+  const L = 600 * easeOut((t - 92) / 2);
+  ctx.beginPath(); ctx.moveTo(W / 2 - L, H / 2 + 12); ctx.lineTo(W / 2 + L, H / 2 + 12); ctx.stroke();
+  label('MUZERO  ·  LATENT  PLANNING  FOR  WORLD  FOOD  SECURITY', W / 2, H / 2 + 56, 20, '#d9d2c3', env(t, 92.6, 96.5, 1.2, 1.5), 8);
+  ctx.restore();
+}
+
+const SCENES = [
+  [0, 7.4, sceneOpen], [6.3, 17.2, sceneStorm], [16.3, 25.2, sceneVictory], [24.4, 39.4, sceneNetwork],
+  [38.4, 51.1, sceneClimate], [50.4, 66.4, sceneRevolution], [65.4, 77.5, sceneWinners], [76.3, 87.2, sceneFuture], [86.6, 97, sceneFinale],
+];
+
+film(96, SCENES);
+</script>
+</body>
+</html>
