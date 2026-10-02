@@ -1,10 +1,10 @@
 # A Peak Under the Hood - A Trace Language theory of Agents
 
-**A**-R-**C** meaning A - or - C is the choice the an intelligent logical Automaton acting upon the boundaries of a language model will choose in the missing Chain Link of Artificial General Intelligence or A-R-C AGI. Through rigorous mathematical definition we provide critically missing description of "what" an agent is and "how" it operates under a dual belief significance ranked question-learning confidence and follow its natural conclusion until the completion of its understanding allowing a model to choose it's agent. By demonstrating the language model horizons which  turn autonomous agents to to sub-autonomous question and learning, we find Chomsky, Nash, and Turing theoretical application and model our own predictions about how autonomous farmers (acting as autonomous nation states) within the game of Kaggriculture will naturally find a Nash equilibrium given the rules and environment play of Kaggriculture.
+**A**-R-**C** meaning A - or— C is the choice an intelligent, logical Automaton acting upon the boundaries of its language model will choose inferring the universal Chain Link of events that unravel the meaning of Artificial General Intelligence, or **A**-R-**C** AGI. Through rigorous mathematical definition, we offer a formal draft description of "what" defines an agent and ask the public to provide "tests" in understanding which model other language models may operate as. An appendix of **decomposition** questions that pertain to significance ranked with confidence and consequence will help finding completion and verification of our deterministic model as we start by describing an initial state, a single goal driven type 0 automaton that is decidable only because the validation and tests by which we use to determine its counterpart and type-3 automaton. By demonstrating recursively enumerable languages must be decidable we inherently assign a Bayesian confidence to our original question, and in doing so find the significance of our data must be the question-and-learning network that unravels through decomposition. We demonstrate that large language models have a pivot vector by which Chomsky, Nash, and Turing theoretical predictions on horizons make about the behavior and classification of an agent. This repository provides the demonstration of our findings and describes a theory of artificial general intelligence as it pertains to the theory of agentic trace languages by art of practical application.
 
-A note to reader: this demonstration ties theory and practice to real world domains of economics. Find evidence of general intelligence and meaning from autonomous and sub autonomous agents we describe real world dilemmas and situations that match our experimental outcomes. Should your goal be to WIN your contest rather than PROVE the usefulness of a model I Nash equilibrium will still be your beginning, but focused on the arbitrarily absurd environment one finds yourself competing in. There you may find the limits which afford a different strategy. We begin with the NeML move first demonstrating that money from nothing is one strategy being played in the current game, and according to Nash rules it should be the first in discovery. We choose MuZero for an architectural basis as it fits nicely with our goal of defining a free-agent which acts and understands language through the context of its lens and outer boundary goals. The definition of a deep belief network is no more than our implementation of the MCTS tree in MuZero matched to the Q-learning subqueries of significant consequence to our understanding of artificial general intelligence
 
 ## 1. System Architecture
+
 
 ```
                                  Raw Farm State (Dict)
@@ -87,9 +87,9 @@ To produce the highest-performing autonomous champion agent that commands the le
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      RANK #1 CHAMPION BUILD PIPELINE                        │
+│                               BUILDING THE AND TRAINING THE PIPELINE        │
 │                                                                             │
-│   Step 1: Ingest Gold Kaggle Replays          →  make gold                  │
+│   Step 1: Ingest Gold Kaggle Replays          →  make replay                │
 │   Step 2: Distill Strategic Micro-Rules       →  make distill               │
 │   Step 3: Run Full 4-Phase Curriculum         →  make phases BATCH=32       │
 │           (or high-capacity competition)      →  make weights-competition   │
